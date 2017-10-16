@@ -25,5 +25,8 @@ repositories {
 
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-websocket')
+	compile group: 'org.mindrot', name: 'jbcrypt', version: '0.4'
+
+
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
