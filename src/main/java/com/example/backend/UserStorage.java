@@ -5,11 +5,15 @@ import java.util.Random;
 
 public class UserStorage {
     static Map<String, User> authstorage = new LinkedHashMap<>();
-    private static Random random = new Random();
 
-    public static void addUser(User u) {
+    // Возращает bool - добавлен ли юзер, или уже есть
+    public static boolean addUser(User u) {
         //String id = u.get();
+        if (authstorage.containsKey(u.getLogname())) {
+            return false;
+        }
         authstorage.put(u.getLogname(), u);
+        return true;
     }
 
     /*public static User getUs(String logname) {

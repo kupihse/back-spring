@@ -12,12 +12,10 @@ public class UserController {
     @ResponseBody
     // добавление юзера при регистрации
     public void addUser(@RequestBody User p, HttpServletResponse resp) {
-        if (!UserStorage.authstorage.containsKey(p.getLogname())) {
-            UserStorage.addUser(p);
+        if (UserStorage.addUser(p)) {
             System.out.println("Got User");
             resp.setStatus(HttpServletResponse.SC_OK);
-        }
-        else {
+        } else {
             System.out.println("Already Exist");
             resp.setStatus(HttpServletResponse.SC_CONFLICT);
         }
@@ -26,13 +24,22 @@ public class UserController {
     @RequestMapping(value = "/log", method = RequestMethod.POST)
     @ResponseBody
     public void logUser(@RequestBody User p, HttpServletResponse resp) {
-        if (UserStorage.authstorage.get(p.getLogname()).equals(p)) {
-            // **************** код входа *******************
+        User u = UserStorage.authstorage.get(p.getLogname());
+        if (u == null) {
+            System.out.println("Such user doesn't exist");
+            resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+            return;
+        }
+        if (u.equals(p)) {
+            /*
+             * **************** код входа ******************
+            */
             System.out.println("Entry Successful");
             resp.setStatus(HttpServletResponse.SC_OK);
-        }
-        else {
-            // **************** неудачный вход *******************
+        } else {
+            /*
+            **************** неудачный вход ******************
+            */
             System.out.println("Entry Fail");
             resp.setStatus(HttpServletResponse.SC_CONFLICT);
         }
