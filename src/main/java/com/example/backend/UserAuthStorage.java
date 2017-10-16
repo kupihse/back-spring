@@ -5,23 +5,23 @@ import java.util.Random;
 import java.util.UUID;
 import java.util.Set;
 
-public class AuthProcStorage {
-    static Map<String, AuthProc> authstorage = new LinkedHashMap<>();
+public class UserAuthStorage {
+    static Map<String, UserAuth> authstorage = new LinkedHashMap<>();
     private static Random random = new Random();
 
-    public static void addUser(AuthProc u) {
+    public static void addUser(UserAuth u) {
         String id = UUID.randomUUID().toString();
         u.setId(id);
         authstorage.put(id, u);
     }
 
-    public static AuthProc getUs(String id) {
+    public static UserAuth getUs(String id) {
         return authstorage.get(id);
     }
 
-    public static boolean check (AuthProc d){  //есть ли юзер?
-        Set<Map.Entry<String, AuthProc>> entrySet=authstorage.entrySet(); //поиск
-        for (Map.Entry<String,AuthProc> pair : entrySet) {
+    public static boolean check (UserAuth d){  //есть ли юзер?
+        Set<Map.Entry<String, UserAuth>> entrySet=authstorage.entrySet(); //поиск
+        for (Map.Entry<String,UserAuth> pair : entrySet) {
             if (d.equals(pair.getValue())) {
                 return true; // нашли наше значение
             }

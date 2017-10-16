@@ -1,19 +1,17 @@
 package com.example.backend;
 
-import javax.accessibility.AccessibleHyperlink;
-
 // Единичный юзер
-public class AuthProc {
+public class UserAuth {
     private String logname;
     private String password;
     private String ID;
 
-    public AuthProc() {
+    public UserAuth() {
         logname="undef";
         password="undef";
         ID="undef";
     }
-    public AuthProc(String logname, String password){
+    public UserAuth(String logname, String password){
         this.logname=logname;
         this.password=password;
     }
@@ -33,9 +31,9 @@ public class AuthProc {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        AuthProc authProc = (AuthProc) o;
+        UserAuth userAuth = (UserAuth) o;
 
-        if (!logname.equals(authProc.logname)) return false;
-        return password.equals(authProc.password);
+        if (!logname.equals(userAuth.logname)) return false;
+        return password.equals(userAuth.password);
     }
 }
