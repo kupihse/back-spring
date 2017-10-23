@@ -8,4 +8,5 @@
 /build
 /captures
 /out
+out/
 .externalNativeBuild
