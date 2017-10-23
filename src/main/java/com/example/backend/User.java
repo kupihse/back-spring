@@ -6,6 +6,8 @@ public class User {
     private String login;
     private String password;
 
+    private boolean confirmed;
+
     public User() {
         name="";
         login ="";
@@ -37,6 +39,13 @@ public class User {
         this.password = password;
     }
 
+    public void setNotConfirmed() {
+        this.confirmed = false;
+    }
+
+    public void confirm() {
+        this.confirmed = true;
+    }
 
     @Override
     public boolean equals(Object o) {

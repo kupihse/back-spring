@@ -3,9 +3,12 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class UserStorage {
     static private Map<String, User> storage = new LinkedHashMap<>();
+
+    static private Map<String, String> notConfirmedUsers = new LinkedHashMap<>();
 
     public enum GetResp {
         OK,
@@ -14,17 +17,26 @@ public class UserStorage {
     }
 
     // Возращает bool - добавлен ли юзер, или уже есть
-    public static boolean addUser(User u) {
+    public static String addUser(User u) {
         //String id = u.get();
         if (storage.containsKey(u.getLogin())) {
-            return false;
+            return "";
         }
 
         // Заменям пароль на новый - хеш пароля со случайной солью
         String hashedPass = BCrypt.hashpw(u.getPassword(), BCrypt.gensalt());
         u.setPassword(hashedPass);
+        u.setNotConfirmed();
         storage.put(u.getLogin(), u);
-        return true;
+        String id = UUID.randomUUID().toString();
+        notConfirmedUsers.put(id, u.getLogin());
+        return id;
+    }
+
+    public static void confirmUser(String id) {
+        String userLogin = notConfirmedUsers.get(id);
+        storage.get(userLogin).confirm();
+        notConfirmedUsers.remove(id);
     }
 
     // Возвращает enum - нет юзера / неверный пароль / все ок
@@ -41,18 +53,11 @@ public class UserStorage {
         return GetResp.OK;
     }
 
-    /*public static User getUs(String logname) {
-    return storage.get(logname);
+    public static Map<String, User> getStorage() {
+        return storage;
     }
 
-    /*public static boolean check (User d){  //есть ли юзер?
-        Set<Map.Entry<String, User>> entrySet=storage.entrySet(); //поиск
-        for (Map.Entry<String,User> pair : entrySet) {
-            if (d.equals(pair.getValue())) {
-                return true; // нашли наше значение
-            }
-        }
-        return false;
+    public static Map<String, String > getNotConfirmedUsers() {
+        return notConfirmedUsers;
     }
-    */
 }
