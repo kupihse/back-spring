@@ -1,12 +1,8 @@
 package com.example.backend;
 
-import org.slf4j.LoggerFactory;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
-import java.util.logging.Logger;
 
 /**
  * Created by Andreyko0 on 13/10/2017.
