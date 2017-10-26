@@ -22,7 +22,7 @@ public class ProductController {
 
   @RequestMapping(value = "/all", method = RequestMethod.GET)
   public Map<String, Product> getAll() {
-    System.out.println("Responded with all products");
+    System.out.println("Responded with all products, and logged it");
     return ProductStorage.storage;
   }
 }
