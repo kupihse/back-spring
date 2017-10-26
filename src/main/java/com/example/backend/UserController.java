@@ -25,8 +25,8 @@ public class UserController {
         String id = UserStorage.addUser(p);
         if (!id.equals("")) {
             System.out.println("Got User");
-            resp.setStatus(HttpServletResponse.SC_OK);
             emailService.sendMail(p.getLogin(),id);
+            resp.setStatus(HttpServletResponse.SC_OK);
         } else {
             System.out.println("Already Exists");
             resp.setStatus(HttpServletResponse.SC_CONFLICT);

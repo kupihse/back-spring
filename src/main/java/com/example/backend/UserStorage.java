@@ -47,7 +47,7 @@ public class UserStorage {
         }
 
         // u - сожержит нехешированный пароль
-        if (BCrypt.checkpw(u.getPassword(), u2.getPassword())) {
+        if (!BCrypt.checkpw(u.getPassword(), u2.getPassword())) {
             return GetResp.WRONG_PASS;
         }
         return GetResp.OK;
