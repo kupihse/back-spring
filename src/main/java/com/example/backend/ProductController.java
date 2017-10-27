@@ -19,6 +19,7 @@ public class ProductController {
     System.out.println("Got prd");
     resp.setStatus(HttpServletResponse.SC_OK);
     // some stupid testing changes
+    // hey
   }
 
   @RequestMapping(value = "/all", method = RequestMethod.GET)
