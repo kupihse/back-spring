@@ -18,7 +18,7 @@ public class ProductController {
     ProductStorage.addProduct(p);
     System.out.println("Got prd");
     resp.setStatus(HttpServletResponse.SC_OK);
-    
+    // some stupid testing changes
   }
 
   @RequestMapping(value = "/all", method = RequestMethod.GET)
