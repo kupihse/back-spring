@@ -21,7 +21,6 @@ public class ProductController {
     // some stupid testing changes
     // some more
     // and more
-    
   }
 
   @RequestMapping(value = "/all", method = RequestMethod.GET)
