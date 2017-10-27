@@ -20,6 +20,7 @@ public class ProductController {
     resp.setStatus(HttpServletResponse.SC_OK);
     // some stupid testing changes
     // some more
+    // and more
   }
 
   @RequestMapping(value = "/all", method = RequestMethod.GET)
