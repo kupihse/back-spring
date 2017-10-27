@@ -10,12 +10,15 @@ import java.util.Map;
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    public EmailService emailService;
 
-    @Autowired
-    public void setEmailService(EmailService emailService) {
-        this.emailService = emailService;
-    }
+
+    // --- SET EMAIL SERVICE
+//    public EmailService emailService;
+//    @Autowired
+//    public void setEmailService(EmailService emailService) {
+//        this.emailService = emailService;
+//    }
+    // ---------
 
 
     @RequestMapping(value = "/new", method = RequestMethod.POST)
@@ -25,7 +28,10 @@ public class UserController {
         String id = UserStorage.addUser(p);
         if (!id.equals("")) {
             System.out.println("Got User");
-            emailService.sendMail(p.getLogin(),id);
+
+            // Send email
+//            emailService.sendMail(p.getLogin(),id);
+
             resp.setStatus(HttpServletResponse.SC_OK);
         } else {
             System.out.println("Already Exists");
