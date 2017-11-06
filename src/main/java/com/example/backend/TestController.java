@@ -18,5 +18,6 @@ public class TestController {
   @RequestMapping("/{s}")
   public void getS(@PathVariable String s) {
     System.out.println(s);
+
   }
 }
