@@ -30,6 +30,6 @@ dependencies {
 	compile 'mysql:mysql-connector-java'
 	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '1.5.8.RELEASE'
-
+	compile group: 'com.zaxxer', name: 'HikariCP', version: '2.7.2'
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
