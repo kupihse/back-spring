@@ -1,14 +1,17 @@
 package com.example.backend;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Created by Andreyko0 on 06/11/2017.
  */
 @Entity
-@Table(name = "test")
+@Table(name = "test2")
 public class Test {
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private long id;
+
   private String s;
 
   public String getS() {
