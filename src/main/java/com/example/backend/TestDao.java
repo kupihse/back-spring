@@ -8,5 +8,5 @@ import javax.transaction.Transactional;
  * Created by Andreyko0 on 06/11/2017.
  */
 @Transactional
-public interface TestDao extends CrudRepository<Test, String> {
+public interface TestDao extends CrudRepository<Test, Long> {
 }
