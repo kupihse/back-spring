@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/test")
 public class TestController {
 
-//  @Autowired
-//  JdbcTemplate db;
+  @Autowired
+  JdbcTemplate db;
   @RequestMapping("/{s}")
   public void getS(@PathVariable String s) {
     System.out.println(s);
