@@ -19,7 +19,7 @@ import javax.sql.DataSource;
 @RequestMapping("/test")
 public class TestController {
 
-  @Bean(name ="prodDataSource")
+  @Bean
   @ConfigurationProperties(prefix="spring.datasource")
   public DataSource dataSource() {
     return DataSourceBuilder.create().build();
