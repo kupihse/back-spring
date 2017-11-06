@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.sql.DataSource;
+
 /**
  * Created by Andreyko0 on 06/11/2017.
  */
@@ -15,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestController {
 
   @Autowired
-  JdbcTemplate db;
+  DataSource src;
   @RequestMapping("/{s}")
   public void getS(@PathVariable String s) {
     System.out.println(s);
