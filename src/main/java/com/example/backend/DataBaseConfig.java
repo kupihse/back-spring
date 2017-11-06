@@ -2,13 +2,17 @@ package com.example.backend;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 
 /**
  * Created by Andreyko0 on 06/11/2017.
  */
+@Configuration
+@EnableTransactionManagement
 public class DataBaseConfig {
 
   @Value("${db.url}")
