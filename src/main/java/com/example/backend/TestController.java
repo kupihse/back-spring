@@ -5,6 +5,7 @@ package com.example.backend;
 //import org.springframework.boot.context.properties.ConfigurationProperties;
 //import org.springframework.context.annotation.Bean;
 //import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,5 +23,11 @@ public class TestController {
   @RequestMapping("/{s}")
   public void getS(@PathVariable String s) {
     System.out.println(s);
+    Test t = new Test();
+    t.setS(s);
+    testDao.save(t);
   }
+
+  @Autowired
+  private TestDao testDao;
 }
