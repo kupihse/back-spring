@@ -19,12 +19,6 @@ import javax.sql.DataSource;
 @RequestMapping("/test")
 public class TestController {
 
-  @Bean
-  @ConfigurationProperties(prefix="spring.datasource")
-  public DataSource dataSource() {
-    return DataSourceBuilder.create().build();
-  }
-
   @RequestMapping("/{s}")
   public void getS(@PathVariable String s) {
     System.out.println(s);
