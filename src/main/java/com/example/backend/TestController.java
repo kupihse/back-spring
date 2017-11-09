@@ -1,5 +1,6 @@
 package com.example.backend;
 
+import jdk.nashorn.internal.scripts.JD;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -21,7 +22,7 @@ import java.sql.SQLException;
 public class TestController {
 
 //  @Autowired
-  JdbcTemplate template;
+  private JdbcTemplate template;
 
   @Autowired
   TestController(JdbcTemplate t) {
