@@ -25,7 +25,7 @@ public class TestController {
 
   @RequestMapping("/{s}")
   public void getS(@PathVariable String s) throws SQLException{
-    System.out.println(s);
+    System.out.println(":s " + s);
 //    Connection c = src.getConnection();
 //    PreparedStatement stmt = c.prepareStatement("INSERT INTO test VALUES (?)");
 //    stmt.setString(1, s);
