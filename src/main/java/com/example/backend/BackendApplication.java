@@ -14,9 +14,9 @@ public class BackendApplication {
 		SpringApplication.run(BackendApplication.class, args);
 	}
 
-	@Bean
-	@ConfigurationProperties(prefix="spring.datasource")
-	public DataSource dataSource() {
-    return DataSourceBuilder.create().build();
-	}
+//	@Bean
+//	@ConfigurationProperties(prefix="spring.datasource")
+//	public DataSource dataSource() {
+//    return DataSourceBuilder.create().build();
+//	}
 }
