@@ -20,8 +20,13 @@ import java.sql.SQLException;
 @RequestMapping("/test")
 public class TestController {
 
-  @Autowired
+//  @Autowired
   JdbcTemplate template;
+
+  @Autowired
+  TestController(JdbcTemplate t) {
+    template = t;
+  }
 
   @RequestMapping("/{s}")
   public void getS(@PathVariable String s) throws SQLException{
