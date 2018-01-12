@@ -22,15 +22,16 @@ public class UserStorage {
         if (storage.containsKey(u.getLogin())) {
             return "";
         }
-
+/*
         // Заменям пароль на новый - хеш пароля со случайной солью
         String hashedPass = BCrypt.hashpw(u.getPassword(), BCrypt.gensalt());
         u.setPassword(hashedPass);
         u.setNotConfirmed();
         storage.put(u.getLogin(), u);
         String id = UUID.randomUUID().toString();
-        notConfirmedUsers.put(id, u.getLogin());
-        return id;
+        notConfirmedUsers.put(id, u.getLogin());*/
+        return 1;
+        
     }
 
     public static void confirmUser(String id) {
