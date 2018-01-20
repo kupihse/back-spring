@@ -1,6 +1,7 @@
-package com.example.backend;
+package com.example.backend.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.backend.storages.UserStorage;
+import com.example.backend.models.User;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;

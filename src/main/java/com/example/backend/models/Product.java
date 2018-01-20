@@ -1,4 +1,4 @@
-package com.example.backend;
+package com.example.backend.models;
 
 /**
  * Created by Andreyko0 on 13/10/2017.

@@ -1,4 +1,5 @@
-package com.example.backend;
+package com.example.backend.storages;
+import com.example.backend.models.User;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.util.LinkedHashMap;
