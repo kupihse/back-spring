@@ -31,8 +31,9 @@ public class UserStorage {
         storage.put(u.getLogin(), u);
         String id = UUID.randomUUID().toString();
         notConfirmedUsers.put(id, u.getLogin());*/
-        return 1;
-        
+
+//        return 1;
+        return "";
     }
 
     public static void confirmUser(String id) {
