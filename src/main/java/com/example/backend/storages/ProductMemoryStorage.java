@@ -2,13 +2,15 @@ package com.example.backend.storages;
 
 import com.example.backend.models.Product;
 import com.example.backend.storages.dao.ProductDAO;
+import org.springframework.stereotype.Repository;
 
 import java.util.*;
 
 /**
  * Created by Andreyko0 on 13/10/2017.
  */
-public class MemoryStorage implements ProductDAO {
+@Repository
+public class ProductMemoryStorage implements ProductDAO {
     Map<String, Product> storage = new LinkedHashMap<>();
 
     public void addProduct(Product p) {
