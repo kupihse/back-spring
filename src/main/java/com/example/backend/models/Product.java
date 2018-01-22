@@ -1,5 +1,7 @@
 package com.example.backend.models;
 
+import java.util.ArrayList;
+
 /**
  * Created by Andreyko0 on 13/10/2017.
  */
@@ -7,7 +9,8 @@ public class Product {
   private String name;
   private String description;
   private String id;
-
+  private int price;
+  private ArrayList<String> images;
   public Product(String name) {
     this.name = name;
   }
@@ -49,5 +52,21 @@ public class Product {
 
   public String getId() {
     return id;
+  }
+
+  public int getPrice() {
+    return price;
+  }
+
+  public void setPrice(int price) {
+    this.price = price;
+  }
+
+  public ArrayList<String> getImages() {
+    return images;
+  }
+
+  public void setImages(ArrayList<String> images) {
+    this.images = images;
   }
 }
