@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
-import javax.websocket.server.PathParam;
 import java.util.List;
 
 /**
@@ -37,7 +36,12 @@ public class ProductController {
   }
 
   @RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
-  public Product getProduct(@PathParam("id") String id) {
-    return storage.getProduct(id);
+  public Product getProduct(@PathVariable("id") String id) {
+    System.out.println("LOG: getting product for id: "+id);
+    Product p = storage.getProduct(id);
+    if (p == null) {
+      System.out.println("LOG: nope");
+    }
+    return p;
   }
 }
