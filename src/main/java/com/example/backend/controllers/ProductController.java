@@ -35,7 +35,7 @@ public class ProductController {
     return storage.getAll();
   }
 
-  @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+  @RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
   public Product getProduct(@PathVariable("id") String id) {
     return storage.getProduct(id);
   }
