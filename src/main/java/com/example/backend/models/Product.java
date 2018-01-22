@@ -10,7 +10,7 @@ public class Product {
   private String description;
   private String id;
   private int price;
-  private ArrayList<String> images;
+//  private ArrayList<String> images;
   public Product(String name) {
     this.name = name;
   }
@@ -62,11 +62,11 @@ public class Product {
     this.price = price;
   }
 
-  public ArrayList<String> getImages() {
-    return images;
-  }
-
-  public void setImages(ArrayList<String> images) {
-    this.images = images;
-  }
+//  public ArrayList<String> getImages() {
+//    return images;
+//  }
+//
+//  public void setImages(ArrayList<String> images) {
+//    this.images = images;
+//  }
 }
