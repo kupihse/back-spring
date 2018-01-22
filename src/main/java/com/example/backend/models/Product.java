@@ -28,8 +28,6 @@ public class Product {
     this.id = "def";
     this.name = "def";
     this.description = "def";
-
-    
   }
 
   public String getDescription() {

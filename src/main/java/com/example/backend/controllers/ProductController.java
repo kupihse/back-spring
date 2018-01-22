@@ -34,4 +34,9 @@ public class ProductController {
     System.out.println("Responded with all products, and logged it, testing again");
     return storage.getAll();
   }
+
+  @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+  public Product getProduct(@PathVariable("id") String id) {
+    return storage.getProduct(id);
+  }
 }
