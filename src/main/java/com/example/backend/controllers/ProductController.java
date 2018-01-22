@@ -37,11 +37,6 @@ public class ProductController {
 
   @RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
   public Product getProduct(@PathVariable("id") String id) {
-    System.out.println("LOG: getting product for id: "+id);
-    Product p = storage.getProduct(id);
-    if (p == null) {
-      System.out.println("LOG: nope");
-    }
-    return p;
+    return storage.getProduct(id);
   }
 }
