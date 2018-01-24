@@ -13,6 +13,12 @@ public class User {
         login ="";
         password="";
     }
+    public User(String login, String password){
+        name="unknown";
+        this.login = login;
+        this.password = password;
+    }
+
     public User(String name, String logname, String password) {
         this.name = name;
         this.login = logname;
