@@ -25,4 +25,8 @@ public class ImageMemoryStorage implements ImageDAO {
     img.body = data;
     return img;
   }
+
+  public void deleteAll() {
+    storage.clear();
+  }
 }

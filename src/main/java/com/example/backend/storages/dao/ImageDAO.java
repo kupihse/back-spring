@@ -8,4 +8,5 @@ import com.example.backend.models.Image;
 public interface ImageDAO {
   void saveImage(String id, String image);
   Image getImage(String id);
+  void deleteAll();
 }

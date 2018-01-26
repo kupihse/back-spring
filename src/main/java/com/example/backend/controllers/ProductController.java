@@ -39,4 +39,9 @@ public class ProductController {
   public Product getProduct(@PathVariable("id") String id) {
     return storage.getProduct(id);
   }
+
+  @GetMapping("/delete/all")
+  void deleteAll() {
+    storage.deleteAll();
+  }
 }

@@ -26,4 +26,7 @@ public class ProductMemoryStorage implements ProductDAO {
       return new ArrayList<>(storage.values());
     }
 
+  public void deleteAll() {
+    storage.clear();
+  }
 }

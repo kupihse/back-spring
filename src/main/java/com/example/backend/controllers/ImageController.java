@@ -24,4 +24,9 @@ public class ImageController {
   Image getImage(@PathVariable("id") String id) {
     return storage.getImage(id);
   }
+
+  @GetMapping("/delete/all")
+  void deleteAll() {
+    storage.deleteAll();
+  }
 }
