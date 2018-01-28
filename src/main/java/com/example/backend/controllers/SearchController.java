@@ -21,11 +21,18 @@ public class SearchController {
 
   @Autowired
   private ProductDAO storage;
-  
+
   @GetMapping("/name/{name}")
   public List<Product> searchName(@PathVariable("name") String name) {
     return storage.stream()
-            .filter(p -> p.getName().equals(name))
+            .filter(p -> p.getName().contains(name))
+            .collect(Collectors.toList());
+  }
+
+  @GetMapping("/desc/{desc}")
+  public List<Product> searchDesc(@PathVariable("desc") String desc) {
+    return storage.stream()
+            .filter(p -> p.getDescription().contains(desc))
             .collect(Collectors.toList());
   }
 
