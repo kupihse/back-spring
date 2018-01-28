@@ -25,14 +25,14 @@ public class SearchController {
   @GetMapping("/name/{name}")
   public List<Product> searchName(@PathVariable("name") String name) {
     return storage.stream()
-            .filter(p -> p.getName().contains(name))
+            .filter(p -> p.getName().toLowerCase().contains(name.toLowerCase()))
             .collect(Collectors.toList());
   }
 
   @GetMapping("/desc/{desc}")
   public List<Product> searchDesc(@PathVariable("desc") String desc) {
     return storage.stream()
-            .filter(p -> p.getDescription().contains(desc))
+            .filter(p -> p.getDescription().toLowerCase().contains(desc.toLowerCase()))
             .collect(Collectors.toList());
   }
 
