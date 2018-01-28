@@ -5,6 +5,7 @@ import com.example.backend.storages.dao.ProductDAO;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * Created by Andreyko0 on 13/10/2017.
@@ -24,6 +25,10 @@ public class ProductMemoryStorage implements ProductDAO {
     }
     public List<Product> getAll() {
       return new ArrayList<>(storage.values());
+    }
+
+    public Stream<Product> stream() {
+      return storage.values().stream();
     }
 
   public void deleteAll() {
