@@ -30,9 +30,10 @@ public class AndroidLoggerController {
   @PostMapping("/")
   public void log(@RequestBody String log) throws Exception {
     if (logFile == null) {
+      System.out.println("NULL");
       return;
     }
-    
+
     logFile.write(log);
     logFile.newLine();
   }
