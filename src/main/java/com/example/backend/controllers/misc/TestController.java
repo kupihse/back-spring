@@ -1,4 +1,4 @@
-package com.example.backend.controllers;
+package com.example.backend.controllers.misc;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
