@@ -32,6 +32,7 @@ public class AndroidLoggerController {
     if (logFile == null) {
       return;
     }
+    
     logFile.write(log);
     logFile.newLine();
   }
