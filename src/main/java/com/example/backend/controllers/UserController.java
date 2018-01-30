@@ -1,17 +1,21 @@
 package com.example.backend.controllers;
 
-import com.example.backend.storages.UserStorage;
 import com.example.backend.models.User;
+import com.example.backend.storages.dao.UserDAO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import com.example.backend.storages.ProductMemoryStorage;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
+@Autowired
+private UserDAO storager;
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
-
+    if (storager.add(User u)==UserDAO.GetResp.FAIL){}
 
     // --- SET EMAIL SERVICE
 //    public EmailService emailService;
@@ -26,7 +30,11 @@ public class UserController {
     @ResponseBody
     // добавление юзера при регистрации
     public void addUser(@RequestBody User p, HttpServletResponse resp) {
-        String id = UserStorage.addUser(p);
+        if ()
+
+
+
+        //String result =
         if (!id.equals("")) {
             System.out.println("Got User");
 

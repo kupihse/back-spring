@@ -3,6 +3,7 @@ package com.example.backend.models;
 // Единичный юзер
 public class User {
     private String name;
+    private String idProduct;
     private String login;
     private String password;
 
