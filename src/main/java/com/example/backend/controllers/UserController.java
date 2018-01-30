@@ -8,14 +8,15 @@ import com.example.backend.storages.ProductMemoryStorage;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
+import java.util.*;
 
-@Autowired
-private UserDAO storager;
+
 
 @RestController
 @RequestMapping("/user")
 public class UserController {
-    if (storager.add(User u)==UserDAO.GetResp.FAIL){}
+    @Autowired
+    private UserDAO storage;
 
     // --- SET EMAIL SERVICE
 //    public EmailService emailService;
@@ -30,37 +31,31 @@ public class UserController {
     @ResponseBody
     // добавление юзера при регистрации
     public void addUser(@RequestBody User p, HttpServletResponse resp) {
-        if ()
-
-
-
-        //String result =
-        if (!id.equals("")) {
+        if (storage.add(p) == UserDAO.GetResp.OK) {
             System.out.println("Got User");
 
-            // Send email
-//            emailService.sendMail(p.getLogin(),id);
+            // @TODO Sending email
+
+            // @TODO Invocation of method that transfer user to confirmed
 
             resp.setStatus(HttpServletResponse.SC_OK);
         } else {
             System.out.println("Already Exists");
             resp.setStatus(HttpServletResponse.SC_CONFLICT);
         }
+
     }
 
-    @RequestMapping(value = "/confirm/{id}")
-    public void confirmUser(@PathVariable String id) {
-        UserStorage.confirmUser(id);
+
+
+    @RequestMapping("/allconfirmed")
+    public List<User> getUsers() {
+        return storage.getAllConfirmed();
     }
 
-    @RequestMapping("/all")
-    public Map<String,User> getUsers() {
-        return UserStorage.getStorage();
-    }
-
-    @RequestMapping("/c")
-    public Map<String,String> getNotConf() {
-        return UserStorage.getNotConfirmedUsers();
+    @RequestMapping("/allnotconfirmed")
+    public List<User> getNotConf() {
+        return storage.getNonConfirmed();
     }
 
 
@@ -69,28 +64,45 @@ public class UserController {
     @RequestMapping(value = "/log", method = RequestMethod.POST)
     @ResponseBody
     public void logUser(@RequestBody User p, HttpServletResponse resp) {
-        switch (UserStorage.getUser(p)) {
-            case WRONG_LOGIN:
+        switch (storage.log(p)) {
+            case USER_NOT_EXISTS:
                 /*
-                 **************** код, если нет юзера ******************
+                 @TODO **************** код, если нет юзера ******************
                  */
                 System.out.println("Such user doesn't exist");
                 resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
                 return;
-            case WRONG_PASS:
+            case WRONG_PASSWORD:
                 /*
-                 **************** код, если неверный пароль ******************
+                 @TODO **************** код, если неверный пароль ******************
                  */
                 System.out.println("Entry Fail");
                 resp.setStatus(HttpServletResponse.SC_CONFLICT);
                 return;
             case OK:
                 /*
-                 ***************** код входа ******************
+                 @TODO ***************** код входа ******************
                  */
                 System.out.println("Entry Successful");
                 resp.setStatus(HttpServletResponse.SC_OK);
+                return;
         }
     }
 
+    // удаление юзера
+
+    @RequestMapping(value = "/del", method = RequestMethod.POST)
+    @ResponseBody
+    public void deleteUser(@RequestBody User p, HttpServletResponse resp){
+        switch (storage.deleteUser(p)){
+            case OK:
+                System.out.println("User was succesfully deleted");
+                resp.setStatus(HttpServletResponse.SC_OK);
+                return;
+            case FAIL:
+                System.out.println("User was not deleted");
+                resp.setStatus(HttpServletResponse.SC_CONFLICT);
+                return;
+        }
+    }
 }

@@ -25,8 +25,9 @@ public class UserMemoryStorage implements UserDAO{
         }
     }
 
+
     public GetResp log(User u){
-        User Checkable = nonConfirmed.get(u.getLogin()) {
+        User Checkable = nonConfirmed.get(u.getLogin());
             if (Checkable == null){
                 return GetResp.USER_NOT_EXISTS;
             }
@@ -34,8 +35,8 @@ public class UserMemoryStorage implements UserDAO{
                 return GetResp.WRONG_PASSWORD;
             }
             return GetResp.OK;
-        }
     }
+
     //------------- Все, что дальше для модеров, кек -----------------
     //----------------------------------------------------------------
     public GetResp deleteUser(User u){
@@ -57,7 +58,7 @@ public class UserMemoryStorage implements UserDAO{
         }
     }
     public List<User> getAllConfirmed() {
-        return new ArrayList<>(storage.values();
+        return new ArrayList<>(storage.values());
     }
     public List<User> getNonConfirmed(){
         return new ArrayList<>(nonConfirmed.values());
