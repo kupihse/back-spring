@@ -88,6 +88,7 @@ public class UserController {
                 resp.setStatus(HttpServletResponse.SC_OK);
                 return p.token();
         }
+        return "";
     }
 
     // удаление юзера
