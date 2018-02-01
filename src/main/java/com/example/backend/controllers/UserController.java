@@ -3,6 +3,7 @@ package com.example.backend.controllers;
 import com.example.backend.models.User;
 import com.example.backend.storages.dao.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.example.backend.storages.ProductMemoryStorage;
 
@@ -63,7 +64,7 @@ public class UserController {
     // авторизация
     @RequestMapping(value = "/log", method = RequestMethod.POST)
     @ResponseBody
-    public String logUser(@RequestBody User p, HttpServletResponse resp) {
+    public ResponseEntity<String> logUser(@RequestBody User p) {
         // + logging
         System.out.println("Logging: "+p);
 
@@ -73,15 +74,13 @@ public class UserController {
                  @TODO **************** код, если нет юзера ******************
                  */
                 System.out.println("Such user doesn't exist");
-                resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                return "";
+                return ResponseEntity.status(HttpServletResponse.SC_NOT_FOUND).body(null);
             case WRONG_PASSWORD:
                 /*
                  @TODO **************** код, если неверный пароль ******************
                  */
                 System.out.println("Entry Fail");
-                resp.setStatus(HttpServletResponse.SC_CONFLICT);
-                return "";
+                return ResponseEntity.status(HttpServletResponse.SC_CONFLICT).body(null);
             case OK:
                 /*
                  @TODO ***************** код входа ******************
@@ -91,9 +90,9 @@ public class UserController {
                 User u = storage.get(p.getLogin());
                 String token = u.token();
                 System.out.println("Logging2: "+u);
-                return token;
+                return ResponseEntity.ok(token);
         }
-        return "";
+        return ResponseEntity.ok("");
     }
 
     // удаление юзера
