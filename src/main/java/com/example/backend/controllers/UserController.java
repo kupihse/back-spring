@@ -89,7 +89,9 @@ public class UserController {
 
                 System.out.println("Entry Successful");
                 resp.setStatus(HttpServletResponse.SC_OK);
-                return p.token();
+                String token = p.token();
+                System.out.println("Logging2: "+p);
+                return token;
         }
         return "";
     }
