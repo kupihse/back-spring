@@ -63,11 +63,10 @@ public class UserController {
 
     // авторизация
     @RequestMapping(value = "/log", method = RequestMethod.POST)
-    public User logUser(@RequestBody User p) {
+    @ResponseBody
+    public ResponseEntity<String> logUser(@RequestBody User p) {
         // + logging
         System.out.println("Logging: "+p);
-
-        // я убрал статус коды пока что
 
         switch (storage.log(p)) {
             case USER_NOT_EXISTS:
@@ -75,13 +74,13 @@ public class UserController {
                  @TODO **************** код, если нет юзера ******************
                  */
                 System.out.println("Such user doesn't exist");
-                return null;
+                return ResponseEntity.status(HttpServletResponse.SC_NOT_FOUND).body("");
             case WRONG_PASSWORD:
                 /*
                  @TODO **************** код, если неверный пароль ******************
                  */
                 System.out.println("Entry Fail");
-                return null;
+                return ResponseEntity.status(HttpServletResponse.SC_CONFLICT).body("");
             case OK:
                 /*
                  @TODO ***************** код входа ******************
@@ -89,11 +88,11 @@ public class UserController {
 
                 System.out.println("Entry Successful");
                 User u = storage.get(p.getLogin());
-                u.token();
+                String token = u.token();
                 System.out.println("Logging2: "+u);
-                return u;
+                return ResponseEntity.ok(token);
         }
-        return null;
+        return ResponseEntity.ok("");
     }
 
     // удаление юзера
