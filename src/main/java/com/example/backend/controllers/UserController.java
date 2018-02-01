@@ -74,13 +74,13 @@ public class UserController {
                  @TODO **************** код, если нет юзера ******************
                  */
                 System.out.println("Such user doesn't exist");
-                return ResponseEntity.status(HttpServletResponse.SC_NOT_FOUND).body(null);
+                return ResponseEntity.status(HttpServletResponse.SC_NOT_FOUND).body("");
             case WRONG_PASSWORD:
                 /*
                  @TODO **************** код, если неверный пароль ******************
                  */
                 System.out.println("Entry Fail");
-                return ResponseEntity.status(HttpServletResponse.SC_CONFLICT).body(null);
+                return ResponseEntity.status(HttpServletResponse.SC_CONFLICT).body("");
             case OK:
                 /*
                  @TODO ***************** код входа ******************
