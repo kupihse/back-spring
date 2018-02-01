@@ -12,7 +12,7 @@ public class UserMemoryStorage implements UserDAO{
     static private Map<String, User> storage = new LinkedHashMap<>();
     static private Map<String, User> nonConfirmed = new LinkedHashMap<>();
 
-    public GetResp add(User u){
+    public GetResp add(User u) {
         if (storage.containsKey(u.getLogin())) {
             return GetResp.ALREADY_EXISTS;
         }
@@ -26,7 +26,7 @@ public class UserMemoryStorage implements UserDAO{
     }
 
 
-    public GetResp log(User u){
+    public GetResp log(User u) {
         User Checkable = storage.get(u.getLogin());
             if (Checkable == null){
                 return GetResp.USER_NOT_EXISTS;
@@ -35,6 +35,10 @@ public class UserMemoryStorage implements UserDAO{
                 return GetResp.WRONG_PASSWORD;
             }
             return GetResp.OK;
+    }
+
+    public User get(String id) {
+        return storage.get(id);
     }
 
     //------------- Все, что дальше для модеров, кек -----------------

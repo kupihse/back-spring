@@ -5,6 +5,7 @@ import java.util.List;
 public interface UserDAO {
     GetResp add(User u);
     GetResp log(User u);
+    User get(String id);
     GetResp deleteUser(User u);  // функции для модераторов, естественно жи
     List<User> getAllConfirmed();// -----||-------
     List<User> getNonConfirmed();// -----||-------
