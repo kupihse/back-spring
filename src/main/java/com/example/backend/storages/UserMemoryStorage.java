@@ -13,21 +13,21 @@ public class UserMemoryStorage implements UserDAO{
     static private Map<String, User> nonConfirmed = new LinkedHashMap<>();
 
     public GetResp add(User u){
-        if (nonConfirmed.containsKey(u.getLogin())) {
+        if (storage.containsKey(u.getLogin())) {
             return GetResp.ALREADY_EXISTS;
         }
         else {
             String hashPass = BCrypt.hashpw(u.getLogin(), BCrypt.gensalt());
             u.setPassword(hashPass);
             u.setNotConfirmed();
-            nonConfirmed.put(u.getLogin(), u);
+            storage.put(u.getLogin(), u);
             return GetResp.OK;
         }
     }
 
 
     public GetResp log(User u){
-        User Checkable = nonConfirmed.get(u.getLogin());
+        User Checkable = storage.get(u.getLogin());
             if (Checkable == null){
                 return GetResp.USER_NOT_EXISTS;
             }

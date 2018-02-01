@@ -63,7 +63,7 @@ public class UserController {
     // авторизация
     @RequestMapping(value = "/log", method = RequestMethod.POST)
     @ResponseBody
-    public void logUser(@RequestBody User p, HttpServletResponse resp) {
+    public String logUser(@RequestBody User p, HttpServletResponse resp) {
         switch (storage.log(p)) {
             case USER_NOT_EXISTS:
                 /*
@@ -71,21 +71,22 @@ public class UserController {
                  */
                 System.out.println("Such user doesn't exist");
                 resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                return;
+                return "";
             case WRONG_PASSWORD:
                 /*
                  @TODO **************** код, если неверный пароль ******************
                  */
                 System.out.println("Entry Fail");
                 resp.setStatus(HttpServletResponse.SC_CONFLICT);
-                return;
+                return "";
             case OK:
                 /*
                  @TODO ***************** код входа ******************
                  */
+
                 System.out.println("Entry Successful");
                 resp.setStatus(HttpServletResponse.SC_OK);
-                return;
+                return p.token();
         }
     }
 

@@ -1,11 +1,15 @@
 package com.example.backend.models;
 
+import java.util.UUID;
+
 // Единичный юзер
 public class User {
     private String name;
     private String idProduct;
     private String login;
     private String password;
+
+    private String token;
 
     private boolean confirmed;
 
@@ -63,5 +67,17 @@ public class User {
 
         if (!login.equals(user.login)) return false;
         return password.equals(user.password);
+    }
+
+
+
+
+
+    // + test
+    public String token() {
+        if (token == null) {
+            token = UUID.randomUUID().toString();
+        }
+        return token;
     }
 }
