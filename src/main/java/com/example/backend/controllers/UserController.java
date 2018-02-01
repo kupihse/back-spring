@@ -88,7 +88,6 @@ public class UserController {
                  */
 
                 System.out.println("Entry Successful");
-                resp.setStatus(HttpServletResponse.SC_OK);
                 User u = storage.get(p.getLogin());
                 String token = u.token();
                 System.out.println("Logging2: "+u);
