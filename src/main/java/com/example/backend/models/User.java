@@ -69,7 +69,10 @@ public class User {
         return password.equals(user.password);
     }
 
-
+    @Override
+    public String toString() {
+        return "login: " + getLogin() + " pass: " + getPassword() + " token: " + token;
+    }
 
 
 

@@ -17,7 +17,7 @@ public class UserMemoryStorage implements UserDAO{
             return GetResp.ALREADY_EXISTS;
         }
         else {
-            String hashPass = BCrypt.hashpw(u.getLogin(), BCrypt.gensalt());
+            String hashPass = BCrypt.hashpw(u.getPassword(), BCrypt.gensalt());
             u.setPassword(hashPass);
             u.setNotConfirmed();
             storage.put(u.getLogin(), u);

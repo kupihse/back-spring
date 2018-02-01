@@ -64,6 +64,9 @@ public class UserController {
     @RequestMapping(value = "/log", method = RequestMethod.POST)
     @ResponseBody
     public String logUser(@RequestBody User p, HttpServletResponse resp) {
+        // + logging
+        System.out.println("Logging: "+p);
+
         switch (storage.log(p)) {
             case USER_NOT_EXISTS:
                 /*
