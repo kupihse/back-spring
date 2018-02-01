@@ -63,7 +63,7 @@ public class UserController {
 
     // авторизация
     @RequestMapping(value = "/log", method = RequestMethod.POST)
-    public String logUser(@RequestBody User p) {
+    public User logUser(@RequestBody User p) {
         // + logging
         System.out.println("Logging: "+p);
 
@@ -75,13 +75,13 @@ public class UserController {
                  @TODO **************** код, если нет юзера ******************
                  */
                 System.out.println("Such user doesn't exist");
-                return "";
+                return null;
             case WRONG_PASSWORD:
                 /*
                  @TODO **************** код, если неверный пароль ******************
                  */
                 System.out.println("Entry Fail");
-                return "";
+                return null;
             case OK:
                 /*
                  @TODO ***************** код входа ******************
@@ -89,11 +89,11 @@ public class UserController {
 
                 System.out.println("Entry Successful");
                 User u = storage.get(p.getLogin());
-                String token = u.token();
+                u.token();
                 System.out.println("Logging2: "+u);
-                return token;
+                return u;
         }
-        return "";
+        return null;
     }
 
     // удаление юзера
