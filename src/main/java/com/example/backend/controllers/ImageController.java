@@ -20,8 +20,7 @@ public class ImageController {
   @Autowired
   private ImageDAO storage;
 
-  @Autowired
-  private ImageDiskStorage diskStorage;
+  private ImageDiskStorage diskStorage = new ImageDiskStorage();
 
   @PostMapping("/add")
   void addImage(@RequestBody Image img) {
