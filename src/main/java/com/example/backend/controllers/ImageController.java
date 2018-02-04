@@ -20,7 +20,8 @@ public class ImageController {
   @Autowired
   private ImageDAO storage;
 
-  private ImageDiskStorage diskStorage = new ImageDiskStorage();
+  @Autowired
+  private ImageDiskStorage diskStorage;
 
   @PostMapping("/add")
   void addImage(@RequestBody Image img) {
@@ -37,12 +38,12 @@ public class ImageController {
     storage.deleteAll();
   }
 
-  @PostMapping("/images/upload/{id}")
+  @PostMapping("/upload/{id}")
   void upload(@PathVariable("id") String id, HttpServletRequest request) throws IOException {
     diskStorage.saveImage(id, request.getInputStream());
   }
 
-  @GetMapping("/images/download/{id}")
+  @GetMapping("/download/{id}")
   void download(@PathVariable("id") String id, HttpServletResponse response) throws IOException {
     diskStorage.getImage(id, response.getOutputStream());
   }
