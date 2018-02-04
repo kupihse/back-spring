@@ -1,15 +1,14 @@
 package com.example.backend.storages;
 
-import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.stereotype.Repository;
 
 import javax.servlet.ServletInputStream;
 import javax.servlet.ServletOutputStream;
-import java.io.*;
-import java.nio.ByteBuffer;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 /**
  * Created by Andreyko0 on 25/01/2018.
