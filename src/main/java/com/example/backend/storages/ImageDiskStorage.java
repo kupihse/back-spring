@@ -30,6 +30,8 @@ public class ImageDiskStorage {
       }
       FileOutputStream stream = new FileOutputStream(f);
       IOUtils.copy(s, stream);
+      stream.flush();
+      stream.close();
     } catch (IOException e) {
       System.out.println("File not found ex");
     }
@@ -46,6 +48,8 @@ public class ImageDiskStorage {
     try {
       FileInputStream stream = new FileInputStream(f);
       IOUtils.copy(stream, s);
+      s.flush();
+      s.close();
     } catch (IOException e) {
       System.out.println("Could get image: "+id);
     }
