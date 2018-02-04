@@ -1,13 +1,12 @@
 package com.example.backend.controllers;
 
 import com.example.backend.models.Image;
-import com.example.backend.storages.ImageByteMemoryStorage;
+import com.example.backend.storages.ImageDiskStorage;
 import com.example.backend.storages.dao.ImageDAO;
 import com.sun.xml.internal.messaging.saaj.util.ByteInputStream;
 import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.RequestEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,7 +24,7 @@ public class ImageController {
   private ImageDAO storage;
 
   @Autowired
-  private ImageByteMemoryStorage byteMemoryStorage;
+  private ImageDiskStorage diskStorage;
 
   @PostMapping("/add")
   void addImage(@RequestBody Image img) {
@@ -43,28 +42,13 @@ public class ImageController {
   }
 
   @PostMapping("/images/upload/{id}")
-  void upload(@PathVariable("id") String id, HttpServletRequest request) {
-    ByteOutputStream stream = new ByteOutputStream();
-    try {
-      IOUtils.copy(request.getInputStream(), stream);
-    } catch (IOException e) {
-      System.out.println("Couldn;t upload: "+e.getMessage());
-      return;
-    }
-    byteMemoryStorage.saveImage(id, stream.getBytes());
+  void upload(@PathVariable("id") String id, HttpServletRequest request) throws IOException {
+    diskStorage.saveImage(id, request.getInputStream());
   }
 
   @GetMapping("/images/download/{id}")
-  void download(@PathVariable("id") String id, HttpServletResponse response) {
-    byte[] bytes = byteMemoryStorage.getImage(id);
-    ByteInputStream stream = new ByteInputStream();
-    try {
-      stream.read(bytes);
-//      response.getOutputStream()
-      IOUtils.copy(stream, response.getOutputStream());
-    } catch (IOException e) {
-      System.out.println("Couldn;t download: "+e.getMessage());
-    }
+  void download(@PathVariable("id") String id, HttpServletResponse response) throws IOException {
+    diskStorage.getImage(id, response.getOutputStream());
   }
 
 }
