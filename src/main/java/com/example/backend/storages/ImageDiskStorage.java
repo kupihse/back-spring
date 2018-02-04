@@ -24,6 +24,7 @@ public class ImageDiskStorage {
   public void saveImage(String id, ServletInputStream s) {
     try {
       File f = getFile(id);
+      System.out.println("Saving to: "+f.getAbsolutePath());
       if (!f.createNewFile()) {
         System.out.println("Couldn;t create file: "+id);
         return;
@@ -32,6 +33,7 @@ public class ImageDiskStorage {
       IOUtils.copy(s, stream);
       stream.flush();
       stream.close();
+      System.out.println("Saved: "+f.getAbsolutePath());
     } catch (IOException e) {
       System.out.println("File not found ex");
     }
@@ -41,6 +43,7 @@ public class ImageDiskStorage {
 
   public void getImage(String id, ServletOutputStream s) {
     File f = getFile(id);
+    System.out.println("Getting from: "+f.getAbsolutePath());
     if (!f.exists()) {
       System.out.println("File doesn't exist: "+id);
       return;
@@ -50,6 +53,7 @@ public class ImageDiskStorage {
       IOUtils.copy(stream, s);
       s.flush();
       s.close();
+      System.out.println("Got: "+f.getAbsolutePath());
     } catch (IOException e) {
       System.out.println("Could get image: "+id);
     }
