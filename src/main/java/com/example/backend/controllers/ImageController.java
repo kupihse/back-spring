@@ -4,6 +4,7 @@ import com.example.backend.models.Image;
 import com.example.backend.storages.ImageDiskStorage;
 import com.example.backend.storages.dao.ImageDAO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -43,7 +44,9 @@ public class ImageController {
     diskStorage.saveImage(id, request.getInputStream());
   }
 
-  @GetMapping("/download/{id}")
+  @GetMapping(
+          value = "/download/{id}",
+  produces = MediaType.IMAGE_JPEG_VALUE)
   void download(@PathVariable("id") String id, HttpServletResponse response) throws IOException {
     diskStorage.getImage(id, response.getOutputStream());
   }
