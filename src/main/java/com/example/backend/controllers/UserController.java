@@ -116,4 +116,10 @@ public class UserController {
                 return;
         }
     }
+
+
+    @GetMapping("/get/{id}")
+    public User getUser(@PathVariable("id") String id) {
+        return storage.get(id);
+    }
 }
