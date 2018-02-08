@@ -11,6 +11,8 @@ public class Product {
   private String id;
   private int price;
   private ArrayList<String> images;
+  private String seller_id;
+
   public Product(String name) {
     this.name = name;
   }
@@ -69,4 +71,9 @@ public class Product {
   public void setImages(ArrayList<String> images) {
     this.images = images;
   }
+
+  public void setSellerId (String id) { seller_id = id; }
+
+  public String getSellerId () { return seller_id; }
+
 }

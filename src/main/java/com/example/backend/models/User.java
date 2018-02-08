@@ -1,13 +1,15 @@
 package com.example.backend.models;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 // Единичный юзер
 public class User {
     private String name;
-    private String idProduct;
+//    private String idProduct;
     private String login;
     private String password;
+    private ArrayList<String> products = new ArrayList<>();
 
     private String token;
 
@@ -57,6 +59,10 @@ public class User {
     public void confirm() {
         this.confirmed = true;
     }
+
+    public void addProduct(String product) { products.add(product); }
+
+    public ArrayList<String> getProducts() { return products; }
 
     @Override
     public boolean equals(Object o) {
