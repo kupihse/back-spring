@@ -119,7 +119,7 @@ public class UserController {
 
 
     @GetMapping("/get")
-    public User getUser(@RequestBody String id) {
+    public User getUser(@RequestParam("id") String id) {
         return storage.get(id);
     }
 }
