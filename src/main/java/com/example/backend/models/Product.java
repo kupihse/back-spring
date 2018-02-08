@@ -11,7 +11,7 @@ public class Product {
   private String id;
   private int price;
   private ArrayList<String> images;
-  private String seller_id;
+  private String sellerId;
 
   public Product(String name) {
     this.name = name;
@@ -72,8 +72,8 @@ public class Product {
     this.images = images;
   }
 
-  public void setSellerId (String id) { seller_id = id; }
+  public void setSellerId (String id) { sellerId = id; }
 
-  public String getSellerId () { return seller_id; }
+  public String getSellerId () { return sellerId; }
 
 }
