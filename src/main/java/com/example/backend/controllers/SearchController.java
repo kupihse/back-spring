@@ -36,4 +36,13 @@ public class SearchController {
             .collect(Collectors.toList());
   }
 
+  @GetMapping("/suggest/name/{name}")
+  public List<String> suggestNames(@PathVariable("name") String name) {
+    return storage.stream()
+            .map(p -> p.getName())
+            .filter(s -> s.toLowerCase().contains(name.toLowerCase()))
+            .collect(Collectors.toList());
+  }
+
+
 }
