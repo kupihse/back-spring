@@ -2,7 +2,7 @@ package com.example.backend.models;
 
 import java.util.ArrayList;
 import java.util.Date;
-
+import java.util.Calendar;
 /**
  * Created by Andreyko0 on 13/10/2017.
  */
@@ -33,9 +33,12 @@ public class Product {
     this.name = "def";
     this.description = "def";
   }
+  public Date getCurrentDate(){
+    return currentDate; }
 
   public void dateInit(){
-    currentDate = new Date();
+    Calendar myCal = Calendar.getInstance();
+    currentDate = myCal.getTime();
   }
   public String getDescription() {
     return description;
