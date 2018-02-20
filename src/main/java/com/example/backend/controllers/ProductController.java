@@ -26,6 +26,7 @@ public class ProductController {
     currentDate = new Date();
     p.dateInit(currentDate.getTime());
     System.out.println(p.getSendableDate());
+    currentDate = null;
     storage.addProduct(p);
     System.out.println("Got prd");
     resp.setStatus(HttpServletResponse.SC_OK);
