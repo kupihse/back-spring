@@ -21,6 +21,7 @@ public class ProductController {
   @RequestMapping(value = "/new", method = RequestMethod.POST)
   @ResponseBody
   public void addProduct(@RequestBody Product p, HttpServletResponse resp) {
+    p.dateInit();
     storage.addProduct(p);
     System.out.println("Got prd");
     resp.setStatus(HttpServletResponse.SC_OK);

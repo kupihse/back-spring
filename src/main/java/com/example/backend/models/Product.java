@@ -1,6 +1,7 @@
 package com.example.backend.models;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by Andreyko0 on 13/10/2017.
@@ -10,6 +11,7 @@ public class Product {
   private String description;
   private String id;
   private int price;
+  private Date currentDate;
   private ArrayList<String> images;
   private String sellerId;
 
@@ -32,6 +34,9 @@ public class Product {
     this.description = "def";
   }
 
+  public void dateInit(){
+    currentDate = new Date();
+  }
   public String getDescription() {
     return description;
   }
