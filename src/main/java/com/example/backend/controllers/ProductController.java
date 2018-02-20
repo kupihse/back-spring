@@ -23,8 +23,7 @@ public class ProductController {
   @RequestMapping(value = "/new", method = RequestMethod.POST)
   @ResponseBody
   public void addProduct(@RequestBody Product p, HttpServletResponse resp) {
-    Calendar myCal = Calendar.getInstance();
-    currentDate = myCal.getTime();
+    currentDate = new Date();
     p.dateInit(currentDate.getTime());
     System.out.println(p.getSendableDate());
     storage.addProduct(p);
