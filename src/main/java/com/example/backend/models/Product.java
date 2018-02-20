@@ -14,6 +14,7 @@ public class Product {
   private Date currentDate;
   private ArrayList<String> images;
   private String sellerId;
+  private long sendableDate;
 
   public Product(String name) {
     this.name = name;
@@ -33,12 +34,17 @@ public class Product {
     this.name = "def";
     this.description = "def";
   }
+  public long getSendableDate(){
+    return sendableDate;
+  }
   public Date getCurrentDate(){
-    return currentDate; }
+    return currentDate;
+  }
 
   public void dateInit(){
     Calendar myCal = Calendar.getInstance();
     currentDate = myCal.getTime();
+    sendableDate = currentDate.getTime();
   }
   public String getDescription() {
     return description;

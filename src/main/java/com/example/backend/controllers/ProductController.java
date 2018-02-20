@@ -22,7 +22,7 @@ public class ProductController {
   @ResponseBody
   public void addProduct(@RequestBody Product p, HttpServletResponse resp) {
     p.dateInit();
-    System.out.println(p.getCurrentDate().toString());
+    System.out.println(p.getSendableDate());
     storage.addProduct(p);
     System.out.println("Got prd");
     resp.setStatus(HttpServletResponse.SC_OK);
