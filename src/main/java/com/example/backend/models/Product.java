@@ -1,8 +1,9 @@
 package com.example.backend.models;
 
+import com.example.backend.controllers.ProductController;
+
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Calendar;
+
 /**
  * Created by Andreyko0 on 13/10/2017.
  */
@@ -11,7 +12,6 @@ public class Product {
   private String description;
   private String id;
   private int price;
-  private Date currentDate;
   private ArrayList<String> images;
   private String sellerId;
   private long sendableDate;
@@ -37,14 +37,10 @@ public class Product {
   public long getSendableDate(){
     return sendableDate;
   }
-  public Date getCurrentDate(){
-    return currentDate;
-  }
 
-  public void dateInit(){
-    Calendar myCal = Calendar.getInstance();
-    currentDate = myCal.getTime();
-    sendableDate = currentDate.getTime();
+
+  public void dateInit(long t){
+      sendableDate = t;
   }
   public String getDescription() {
     return description;

@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,11 +19,13 @@ public class ProductController {
 
   @Autowired
   private ProductDAO storage;
-
+  private Date currentDate;
   @RequestMapping(value = "/new", method = RequestMethod.POST)
   @ResponseBody
   public void addProduct(@RequestBody Product p, HttpServletResponse resp) {
-    p.dateInit();
+    Calendar myCal = Calendar.getInstance();
+    currentDate = myCal.getTime();
+    p.dateInit(currentDate.getTime());
     System.out.println(p.getSendableDate());
     storage.addProduct(p);
     System.out.println("Got prd");
