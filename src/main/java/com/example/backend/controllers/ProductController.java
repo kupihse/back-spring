@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Andreyko0 on 13/10/2017.
@@ -50,4 +51,14 @@ public class ProductController {
   void deleteAll() {
     storage.deleteAll();
   }
+
+  @GetMapping("/all/n/{start}/{n}")
+  public List<Product> getN(@PathVariable("start") Integer start,
+                            @PathVariable("n") Integer n) {
+    return storage.stream()
+            .skip(start)
+            .limit(n)
+            .collect(Collectors.toList());
+  }
+
 }
