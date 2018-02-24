@@ -53,13 +53,21 @@ public class ProductController {
   }
 
   @GetMapping("/all/n/{start}/{n}")
-  public List<Product> getN(@PathVariable("start") Integer start,
+  public NProductsResponse getN(@PathVariable("start") Integer start,
                             @PathVariable("n") Integer n) {
-    return storage.stream()
+    NProductsResponse response = new NProductsResponse();
+    response.max = storage.size();
+    response.products = storage.stream()
             .skip(start)
             .limit(n)
             .collect(Collectors.toList());
+    return response;
   }
 
+
+  class NProductsResponse {
+    public List<Product> products;
+    public int max;
+  }
   
 }

@@ -17,24 +17,8 @@ import java.util.logging.Logger;
 @RestController
 @RequestMapping("/log")
 public class AndroidLoggerController {
-
-  private BufferedWriter logFile;
-  {
-    try {
-      logFile = new BufferedWriter(new FileWriter("/root/back-spring/logs/android.log"));
-    } catch (Exception e) {
-      System.out.println("Couldn't start android logger");
-    }
-  }
-
   @PostMapping("/")
   public void log(@RequestBody String log) throws Exception {
-    if (logFile == null) {
-      System.out.println("NULL");
-      return;
-    }
-
-    logFile.write(log);
-    logFile.newLine();
+      System.out.println("Android: " + log);
   }
 }

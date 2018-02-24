@@ -14,4 +14,5 @@ public interface ProductDAO {
   List<Product> getAll();
   Stream<Product> stream();
   void deleteAll();
+  int size();
 }

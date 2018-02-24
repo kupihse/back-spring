@@ -46,4 +46,8 @@ public class ProductMemoryStorage implements ProductDAO {
     products.clear();
     indexMap.clear();
   }
+
+  public int size() {
+    return products.size();
+  }
 }
