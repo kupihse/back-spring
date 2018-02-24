@@ -6,32 +6,44 @@ import org.springframework.stereotype.Repository;
 
 import java.util.*;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 /**
  * Created by Andreyko0 on 13/10/2017.
  */
 @Repository
 public class ProductMemoryStorage implements ProductDAO {
-    Map<String, Product> storage = new LinkedHashMap<>();
 
-    public void addProduct(Product p) {
-      String id = UUID.randomUUID().toString();
-      p.setId(id);
-      storage.put(id, p);
-    }
+  // список товаров
+  ArrayList<Product> products = new ArrayList<>();
 
-    public Product getProduct(String id) {
-      return storage.get(id);
-    }
-    public List<Product> getAll() {
-      return new ArrayList<>(storage.values());
-    }
+  // мап id товара к его индексу в списке
+  // для быстрого поиска
+  HashMap<String, Integer> indexMap = new HashMap<>();
 
-    public Stream<Product> stream() {
-      return storage.values().stream();
-    }
+  public void addProduct(Product p) {
+    String id = UUID.randomUUID().toString();
+    p.setId(id);
+    indexMap.replaceAll((k, v) -> ++v);
+    products.add(0, p);
+    indexMap.put(id, 0);
+  }
+
+  public Product getProduct(String id) {
+    int index = indexMap.get(id);
+    return products.get(index);
+  }
+
+  public List<Product> getAll() {
+    return products;
+  }
+
+  public Stream<Product> stream() {
+    return products.stream();
+  }
 
   public void deleteAll() {
-    storage.clear();
+    products.clear();
+    indexMap.clear();
   }
 }
