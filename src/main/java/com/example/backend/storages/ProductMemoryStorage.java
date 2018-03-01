@@ -34,6 +34,16 @@ public class ProductMemoryStorage implements ProductDAO {
     return products.get(index);
   }
 
+  public ArrayList<String> getProductsBySeller(String sellerId) {
+    ArrayList<String> elemsId = new ArrayList<>();
+    for (Product elem:products) {
+      if (elem.getSellerId().equals(sellerId)) {
+        elemsId.add(elem.getId());
+      }
+    }
+    return elemsId;
+  }
+
   public List<Product> getAll() {
     return products;
   }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -45,6 +46,11 @@ public class ProductController {
   @RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
   public Product getProduct(@PathVariable("id") String id) {
     return storage.getProduct(id);
+  }
+
+  @RequestMapping(value = "/sellerId/{sellerId}", method = RequestMethod.GET)
+  public ArrayList<String> getBySellerId(@PathVariable("sellerId") String sellerId) {
+    return storage.getProductsBySeller(sellerId);
   }
 
   @GetMapping("/delete/all")
