@@ -4,6 +4,7 @@ import com.example.backend.models.Product;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 
 /**
@@ -14,7 +15,7 @@ public interface ProductDAO {
   Product getProduct(String id);
   List<Product> getAll();
   Stream<Product> stream();
-  ArrayList<String> getProductsBySeller(String sellerId);
+  Stream<Product> getProductStreamByIds(Set<String> ids);
   void deleteAll();
   int size();
 }

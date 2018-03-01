@@ -5,6 +5,7 @@ import com.example.backend.storages.dao.ProductDAO;
 import org.springframework.stereotype.Repository;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
@@ -22,11 +23,9 @@ public class ProductMemoryStorage implements ProductDAO {
   HashMap<String, Integer> indexMap = new HashMap<>();
 
   public void addProduct(Product p) {
-    String id = UUID.randomUUID().toString();
-    p.setId(id);
     indexMap.replaceAll((k, v) -> ++v);
     products.add(0, p);
-    indexMap.put(id, 0);
+    indexMap.put(p.getId(), 0);
   }
 
   public Product getProduct(String id) {
@@ -34,14 +33,15 @@ public class ProductMemoryStorage implements ProductDAO {
     return products.get(index);
   }
 
-  public ArrayList<String> getProductsBySeller(String sellerId) {
-    ArrayList<String> elemsId = new ArrayList<>();
-    for (Product elem:products) {
-      if (elem.getSellerId().equals(sellerId)) {
-        elemsId.add(elem.getId());
-      }
-    }
-    return elemsId;
+  public Stream<Product> getProductStreamByIds(Set<String> ids) {
+    return ids.stream()
+            .map(id -> indexMap.get(id))
+            .map(idx -> {
+              if (idx == null) {
+                return null;
+              }
+              return products.get(idx);
+            });
   }
 
   public List<Product> getAll() {

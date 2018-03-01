@@ -3,6 +3,8 @@ package com.example.backend.models;
 import com.example.backend.controllers.ProductController;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.UUID;
 
 /**
  * Created by Andreyko0 on 13/10/2017.
@@ -39,9 +41,24 @@ public class Product {
   }
 
 
-  public void dateInit(long t){
-      sendableDate = t;
+  public void initDate(Date date) {
+      sendableDate = date.getTime();
   }
+
+  public void initDate() {
+    this.initDate(new Date());
+  }
+
+  public void initId() {
+    String id = UUID.randomUUID().toString();
+    this.setId(id);
+  }
+
+  public void init() {
+    initId();
+    initDate();
+  }
+
   public String getDescription() {
     return description;
   }
