@@ -2,9 +2,7 @@ package com.example.backend.models;
 
 import com.example.backend.controllers.ProductController;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by Andreyko0 on 13/10/2017.
@@ -15,6 +13,7 @@ public class Product {
   private String id;
   private int price;
   private ArrayList<String> images;
+  private Set<String> tags;
   private String sellerId;
   private long sendableDate;
 
@@ -102,5 +101,17 @@ public class Product {
   public void setSellerId (String id) { sellerId = id; }
 
   public String getSellerId () { return sellerId; }
+
+  public Set<String> getTags() {
+    return tags;
+  }
+
+  public void setTags(Set<String> tags) {
+    this.tags = tags;
+  }
+
+  public void addTag(String s) {
+    tags.add(s);
+  }
 
 }
