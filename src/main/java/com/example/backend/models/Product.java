@@ -1,6 +1,7 @@
 package com.example.backend.models;
 
-import com.example.backend.controllers.ProductController;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.*;
 
@@ -15,7 +16,9 @@ public class Product {
   private ArrayList<String> images;
   private Set<String> tags;
   private String sellerId;
-  private long sendableDate;
+
+  @JsonIgnore
+  private Date date;
 
   public Product(String name) {
     this.name = name;
@@ -35,17 +38,23 @@ public class Product {
     this.name = "def";
     this.description = "def";
   }
+
+  @JsonProperty("sendableDate")
   public long getSendableDate(){
-    return sendableDate;
+    return date.getTime();
   }
 
 
-  public void initDate(Date date) {
-      sendableDate = date.getTime();
+  public Date getDate() {
+    return date;
+  }
+
+  public void setDate(Date date) {
+      this.date = date;
   }
 
   public void initDate() {
-    this.initDate(new Date());
+    this.setDate(new Date());
   }
 
   public void initId() {

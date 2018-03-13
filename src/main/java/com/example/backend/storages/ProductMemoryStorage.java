@@ -4,15 +4,15 @@ import com.example.backend.models.Product;
 import com.example.backend.storages.dao.ProductDAO;
 import org.springframework.stereotype.Repository;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
 
 /**
  * Created by Andreyko0 on 13/10/2017.
  */
-@Repository
+@Repository("products-memory")
 public class ProductMemoryStorage implements ProductDAO {
 
   // список товаров
@@ -22,41 +22,61 @@ public class ProductMemoryStorage implements ProductDAO {
   // для быстрого поиска
   HashMap<String, Integer> indexMap = new HashMap<>();
 
+  @Override
   public void addProduct(Product p) {
     indexMap.replaceAll((k, v) -> ++v);
     products.add(0, p);
     indexMap.put(p.getId(), 0);
   }
 
+  @Override
   public Product getProduct(String id) {
     int index = indexMap.get(id);
     return products.get(index);
   }
 
-  public Stream<Product> getProductStreamByIds(Set<String> ids) {
-    return ids.stream()
-            .map(id -> indexMap.get(id))
-            .map(idx -> {
-              if (idx == null) {
-                return null;
-              }
-              return products.get(idx);
-            });
+  @Override
+  public List<Product> getProductsBySellerId(String sellerId) {
+    return products.stream()
+            .filter((p) -> p.getSellerId().equals(sellerId))
+            .collect(Collectors.toList());
   }
 
+  @Override
+  public List<Product> getNBySellerId(String sellerId, int start, int n) {
+    return products.stream()
+            .filter((p) -> p.getSellerId().equals(sellerId))
+            .skip(start)
+            .limit(n)
+            .collect(Collectors.toList());
+  }
+
+  @Override
   public List<Product> getAll() {
     return products;
   }
 
-  public Stream<Product> stream() {
-    return products.stream();
+  @Override
+  public List<Product> getN(int start, int n) {
+    return products.stream().skip(start).limit(n).collect(Collectors.toList());
   }
 
+  @Override
+  public boolean deleteProduct(String id) {
+    Integer idx = indexMap.remove(id);
+    if (idx == null) {
+      return false;
+    }
+    return products.remove(idx.intValue()) != null;
+  }
+
+  @Override
   public void deleteAll() {
     products.clear();
     indexMap.clear();
   }
 
+  @Override
   public int size() {
     return products.size();
   }

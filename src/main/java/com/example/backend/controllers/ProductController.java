@@ -6,15 +6,11 @@ import com.example.backend.storages.dao.ProductDAO;
 import com.example.backend.storages.dao.UserDAO;
 import com.example.backend.util.Pair;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * Created by Andreyko0 on 13/10/2017.
@@ -24,11 +20,11 @@ import java.util.stream.Stream;
 public class ProductController {
 
   @Autowired
+  @Qualifier("products-db")
   private ProductDAO productStorage;
 
   @Autowired
   private UserDAO userStorage;
-
 
 
   // Генерируем id товара и ставим ему дату в init()
@@ -38,7 +34,7 @@ public class ProductController {
   public void addProduct(@RequestBody Product p, HttpServletResponse resp) {
 
     p.init();
-    System.out.println(p.getSendableDate());
+    System.out.println(p.getDateLong());
 
     productStorage.addProduct(p);
 
@@ -69,26 +65,10 @@ public class ProductController {
   }
 
 
-  // Берем stream товаров (не список – для гибкости) для определенного юзера
-  private Pair<Stream<Product>, Integer> getBySellerId(String sellerId) {
-    User user = userStorage.get(sellerId);
-    if (user == null) {
-      return null;
-    }
-    Set<String> ids = user.getProducts();
-    return new Pair<>(productStorage.getProductStreamByIds(ids), ids.size());
-  }
-
-
   // Все товары конкретного юзера
   @GetMapping(value = "/sellerId/{sellerId}/all")
-  public ResponseEntity<List<Product>> getAllBySellerId(@PathVariable("sellerId") String sellerId) {
-    Pair<Stream<Product>, Integer> productStreamPair = getBySellerId(sellerId);
-    if (productStreamPair == null) {
-      return ResponseEntity.notFound().build();
-    }
-
-    return ResponseEntity.ok(productStreamPair.first.collect(Collectors.toList()));
+  public List<Product> getAllBySellerId(@PathVariable("sellerId") String sellerId) {
+    return productStorage.getProductsBySellerId(sellerId);
   }
 
 
@@ -96,24 +76,20 @@ public class ProductController {
   // также возвращаем общее количество товаров для этого юзера
   // Если товара нету, вместо него null
   @GetMapping(value = "/sellerId/{sellerId}/n/{start}/{n}")
-  public ResponseEntity<Pair<List<Product>, Integer>> getNBySellerId(@PathVariable("sellerId") String sellerId,
-                                                      @PathVariable("start") Integer start,
-                                                      @PathVariable("n") Integer n) {
-    Pair<Stream<Product>, Integer> productStreamPair = getBySellerId(sellerId);
-    if (productStreamPair == null) {
-      return ResponseEntity.notFound().build();
-    }
+  public Pair<List<Product>, Integer> getNBySellerId(@PathVariable("sellerId") String sellerId,
+                                                     @PathVariable("start") Integer start,
+                                                     @PathVariable("n") Integer n) {
 
-    Pair<List<Product>, Integer> response = new Pair<>();
-    response.first = productStreamPair.first
-            .skip(start)
-            .limit(n)
-            .collect(Collectors.toList());
-    response.second = productStreamPair.second;
-
-    return ResponseEntity.ok(response);
+    return new Pair<>(
+            productStorage.getNBySellerId(sellerId, start, n),
+            productStorage.size()
+    );
   }
 
+  @DeleteMapping("/delete/id/{id}")
+  void deleteById(@PathVariable("id") String id) {
+    productStorage.deleteProduct(id);
+  }
 
   // очищаем Storage
   @GetMapping("/delete/all")
@@ -126,14 +102,12 @@ public class ProductController {
   // также возвращаем общее количество товаров для этого юзера
   @GetMapping("/all/n/{start}/{n}")
   public Pair<List<Product>, Integer> getN(@PathVariable("start") Integer start,
-                   @PathVariable("n") Integer n) {
-    Pair<List<Product>, Integer> response = new Pair<>();
-    response.second = productStorage.size();
-    response.first = productStorage.stream()
-            .skip(start)
-            .limit(n)
-            .collect(Collectors.toList());
-    return response;
+                                           @PathVariable("n") Integer n) {
+
+    return new Pair<>(
+            productStorage.getN(start, n),
+            productStorage.size()
+    );
   }
 
 }
