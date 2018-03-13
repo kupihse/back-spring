@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.Table;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
  * Created by Andreyko0 on 20/01/2018.
  */
 
+@Table(name = "Products")
 @Repository("products-db")
 public class ProductStorage implements ProductDAO {
 
