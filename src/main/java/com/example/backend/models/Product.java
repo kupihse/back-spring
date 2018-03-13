@@ -13,7 +13,7 @@ public class Product {
   private String description;
   private String id;
   private int price;
-  private ArrayList<String> images;
+  private List<String> images;
   private Set<String> tags;
   private String sellerId;
 
@@ -99,11 +99,11 @@ public class Product {
     this.price = price;
   }
 
-  public ArrayList<String> getImages() {
+  public List<String> getImages() {
     return images;
   }
 
-  public void setImages(ArrayList<String> images) {
+  public void setImages(List<String> images) {
     this.images = images;
   }
 

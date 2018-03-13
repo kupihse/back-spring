@@ -7,15 +7,20 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.Table;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Created by Andreyko0 on 20/01/2018.
  */
 
-@Table(name = "Products")
+
+// Надо хранить у каждого товара айди главной картинки, чтоб не запрашивать каждый раз все картинки сразу
+
+
 @Repository("products-db")
 public class ProductStorage implements ProductDAO {
 
@@ -28,39 +33,73 @@ public class ProductStorage implements ProductDAO {
                     " (prod_id, title, description, price, seller_id, add_date)" +
                     " VALUES (?,?,?,?,?,?)", p.getId(), p.getName(),
             p.getDescription(), p.getPrice(), p.getSellerId(), p.getDate());
+    if (p.getImages() == null) {
+      return;
+    }
+    List<Object[]> data = p.getImages().stream()
+            .map((id) -> new Object[]{id, p.getId()})
+            .collect(Collectors.toList());
+    template.batchUpdate("INSERT INTO Product_photo" +
+            " (photo_id, product_id)" +
+            " VALUES (?,?)", data);
   }
 
   @Override
   public Product getProduct(String id) {
     // Хз работает ли
-    return template.queryForObject("Select * from Products where prod_id=?", Product.class, id);
+    Product product = template.queryForObject("Select * from Products where prod_id=?", Product.class, id);
+    List<String> im_ids = template.queryForList("Select photo_id from Product_photo where product_id = ?", String.class, id);
+    product.setImages(im_ids);
+    return product;
   }
 
   @Override
   public List<Product> getProductsBySellerId(String sellerId) {
-    return template.query("Select * from Products WHERE seller_id = ?",
+    List<Product> products = template.query("Select * from Products WHERE seller_id = ?",
             (rs, rowNum) -> rowToProduct(rs),
             sellerId);
+    for (Product p : products) {
+      List<String> im_ids = template.queryForList("Select photo_id from Product_photo where product_id = ?", String.class, p.getId());
+      p.setImages(im_ids);
+    }
+    return products;
   }
 
   @Override
   public List<Product> getNBySellerId(String sellerId, int start, int n) {
-    return template.query("Select * from Products WHERE seller_id = ?" +
+    List<Product> products = template.query("Select * from Products WHERE seller_id = ?" +
                     " LIMIT ? OFFSET ?",
             (rs, rowNum) -> rowToProduct(rs),
             sellerId, n, start);
+    for (Product p : products) {
+      List<String> im_ids = template.queryForList("Select photo_id from Product_photo where product_id = ?", String.class, p.getId());
+      p.setImages(im_ids);
+    }
+    return products;
   }
 
   @Override
   public List<Product> getAll() {
-    return template.query("Select * from Products", (rs, rowNum) -> rowToProduct(rs));
+    List<Product> products = template.query("Select * from Products", (rs, rowNum) -> rowToProduct(rs));
+    for (Product p : products) {
+      List<String> im_ids = template.queryForList("Select photo_id from Product_photo where product_id = ?", String.class, p.getId());
+      p.setImages(im_ids);
+    }
+    return products;
   }
 
+
+  // Надо поменять
   @Override
   public List<Product> getN(int start, int n) {
-    return template.query("Select * from Products" +
+    List<Product> products = template.query("Select * from Products" +
                     " LIMIT ? OFFSET ?", (rs, rowNum) -> rowToProduct(rs),
             n, start);
+    for (Product p : products) {
+      List<String> im_ids = template.queryForList("Select photo_id from Product_photo where product_id = ?", String.class, p.getId());
+      p.setImages(im_ids);
+    }
+    return products;
   }
 
   @Override
@@ -98,10 +137,15 @@ public class ProductStorage implements ProductDAO {
 
   @Override
   public List<Product> search(String query) {
-    return template.query("Select * from Products" +
+    List<Product> products = template.query("Select * from Products" +
                     " where title like ?",
             (rs, rowNum) -> rowToProduct(rs),
             "%" + query.toLowerCase() + "%");
+    for (Product p : products) {
+      List<String> im_ids = template.queryForList("Select photo_id from Product_photo where product_id = ?", String.class, p.getId());
+      p.setImages(im_ids);
+    }
+    return products;
   }
 
   @Override
