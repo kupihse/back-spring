@@ -45,7 +45,7 @@ public class ProductStorage implements ProductDAO {
 
   @Override
   public List<Product> getNBySellerId(String sellerId, int start, int n) {
-    return template.query("Select * from Products WHERE seller_id = ?" +
+    return template.query("Select * from Products WHERE seller_id = ? " +
                     "LIMIT ? OFFSET ?",
             (rs, rowNum) -> rowToProduct(rs),
             sellerId, n, start);
@@ -58,7 +58,7 @@ public class ProductStorage implements ProductDAO {
 
   @Override
   public List<Product> getN(int start, int n) {
-    return template.query("Select * from Products" +
+    return template.query("Select * from Products " +
                     "LIMIT ? OFFSET ?", (rs, rowNum) -> rowToProduct(rs),
             n, start);
   }
