@@ -34,7 +34,7 @@ public class ProductController {
   public void addProduct(@RequestBody Product p, HttpServletResponse resp) {
 
     p.init();
-    System.out.println(p.getDateLong());
+    System.out.println(p.getSendableDate());
 
     productStorage.addProduct(p);
 

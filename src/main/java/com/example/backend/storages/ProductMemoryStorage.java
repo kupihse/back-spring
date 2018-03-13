@@ -80,4 +80,20 @@ public class ProductMemoryStorage implements ProductDAO {
   public int size() {
     return products.size();
   }
+
+
+  @Override
+  public List<Product> search(String query) {
+    return products.stream()
+            .filter(p -> p.getName().toLowerCase().contains(query.toLowerCase()))
+            .collect(Collectors.toList());
+  }
+
+  @Override
+  public List<String> suggestNames(String query) {
+    return products.stream()
+            .map(p -> p.getName())
+            .filter(s -> s.toLowerCase().contains(query.toLowerCase()))
+            .collect(Collectors.toList());
+  }
 }

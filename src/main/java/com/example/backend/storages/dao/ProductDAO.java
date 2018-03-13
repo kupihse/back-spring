@@ -17,4 +17,7 @@ public interface ProductDAO {
   boolean deleteProduct(String id);
   void deleteAll();
   int size();
+
+  List<Product> search(String query);
+  List<String> suggestNames(String query);
 }

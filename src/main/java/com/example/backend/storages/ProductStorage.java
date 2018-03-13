@@ -22,7 +22,7 @@ public class ProductStorage implements ProductDAO {
 
   @Override
   public void addProduct(Product p) {
-    template.update("INSERT  INTO Products" +
+    template.update("INSERT INTO Products" +
                     " (prod_id, title, desciption, price, seller_id, add_date) " +
                     "VALUES (?,?,?,?,?,?)", p.getId(), p.getName(),
             p.getDescription(), p.getPrice(), p.getSellerId(), p.getDate());
@@ -31,19 +31,19 @@ public class ProductStorage implements ProductDAO {
   @Override
   public Product getProduct(String id) {
     // Хз работает ли
-    return template.queryForObject("Select from Products where prod_id=?", Product.class, id);
+    return template.queryForObject("Select * from Products where prod_id=?", Product.class, id);
   }
 
   @Override
   public List<Product> getProductsBySellerId(String sellerId) {
-    return template.query("Select from Products WHERE seller_id = ?",
+    return template.query("Select * from Products WHERE seller_id = ?",
             (rs, rowNum) -> rowToProduct(rs),
             sellerId);
   }
 
   @Override
   public List<Product> getNBySellerId(String sellerId, int start, int n) {
-    return template.query("Select from Products WHERE seller_id = ?" +
+    return template.query("Select * from Products WHERE seller_id = ?" +
                     "LIMIT ? OFFSET ?",
             (rs, rowNum) -> rowToProduct(rs),
             sellerId, n, start);
@@ -51,13 +51,13 @@ public class ProductStorage implements ProductDAO {
 
   @Override
   public List<Product> getAll() {
-    return template.query("Select from Products", (rs, rowNum) -> rowToProduct(rs));
+    return template.query("Select * from Products", (rs, rowNum) -> rowToProduct(rs));
   }
 
   @Override
   public List<Product> getN(int start, int n) {
-    return template.query("Select from Products" +
-            "LIMIT ? OFFSET ?", (rs, rowNum) -> rowToProduct(rs),
+    return template.query("Select * from Products" +
+                    "LIMIT ? OFFSET ?", (rs, rowNum) -> rowToProduct(rs),
             n, start);
   }
 
@@ -91,5 +91,22 @@ public class ProductStorage implements ProductDAO {
     // по-другому надо как-то сделать,не один же покупатель будет
 
     return product;
+  }
+
+
+  @Override
+  public List<Product> search(String query) {
+    return template.query("Select * from Products" +
+                    "where title like ?",
+            (rs, rowNum) -> rowToProduct(rs),
+            "%" + query.toLowerCase() + "%");
+  }
+
+  @Override
+  public List<String> suggestNames(String query) {
+    return template.queryForList("Select * from Products" +
+                    "where title like ?",
+            String.class,
+            "%" + query.toLowerCase() + "%");
   }
 }
