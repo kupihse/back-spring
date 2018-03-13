@@ -25,8 +25,8 @@ public class ProductStorage implements ProductDAO {
   @Override
   public void addProduct(Product p) {
     template.update("INSERT INTO Products" +
-                    " (prod_id, title, description, price, seller_id, add_date) " +
-                    "VALUES (?,?,?,?,?,?)", p.getId(), p.getName(),
+                    " (prod_id, title, description, price, seller_id, add_date)" +
+                    " VALUES (?,?,?,?,?,?)", p.getId(), p.getName(),
             p.getDescription(), p.getPrice(), p.getSellerId(), p.getDate());
   }
 
@@ -45,8 +45,8 @@ public class ProductStorage implements ProductDAO {
 
   @Override
   public List<Product> getNBySellerId(String sellerId, int start, int n) {
-    return template.query("Select * from Products WHERE seller_id = ? " +
-                    "LIMIT ? OFFSET ?",
+    return template.query("Select * from Products WHERE seller_id = ?" +
+                    " LIMIT ? OFFSET ?",
             (rs, rowNum) -> rowToProduct(rs),
             sellerId, n, start);
   }
@@ -58,8 +58,8 @@ public class ProductStorage implements ProductDAO {
 
   @Override
   public List<Product> getN(int start, int n) {
-    return template.query("Select * from Products " +
-                    "LIMIT ? OFFSET ?", (rs, rowNum) -> rowToProduct(rs),
+    return template.query("Select * from Products" +
+                    " LIMIT ? OFFSET ?", (rs, rowNum) -> rowToProduct(rs),
             n, start);
   }
 
@@ -99,7 +99,7 @@ public class ProductStorage implements ProductDAO {
   @Override
   public List<Product> search(String query) {
     return template.query("Select * from Products" +
-                    "where title like ?",
+                    " where title like ?",
             (rs, rowNum) -> rowToProduct(rs),
             "%" + query.toLowerCase() + "%");
   }
@@ -107,7 +107,7 @@ public class ProductStorage implements ProductDAO {
   @Override
   public List<String> suggestNames(String query) {
     return template.queryForList("Select * from Products" +
-                    "where title like ?",
+                    " where title like ?",
             String.class,
             "%" + query.toLowerCase() + "%");
   }
