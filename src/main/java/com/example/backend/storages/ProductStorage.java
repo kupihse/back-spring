@@ -25,7 +25,7 @@ public class ProductStorage implements ProductDAO {
   @Override
   public void addProduct(Product p) {
     template.update("INSERT INTO Products" +
-                    " (prod_id, title, desciption, price, seller_id, add_date) " +
+                    " (prod_id, title, description, price, seller_id, add_date) " +
                     "VALUES (?,?,?,?,?,?)", p.getId(), p.getName(),
             p.getDescription(), p.getPrice(), p.getSellerId(), p.getDate());
   }
