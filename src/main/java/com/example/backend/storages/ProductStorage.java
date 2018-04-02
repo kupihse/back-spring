@@ -144,7 +144,7 @@ public class ProductStorage implements ProductDAO {
   @Override
   public List<Product> search(String query) {
     List<Product> products = template.query("Select * from Products" +
-                    " where title like ?",
+                    " where title like ? ORDER BY add_date",
             (rs, rowNum) -> rowToProduct(rs),
             "%" + query.toLowerCase() + "%");
     for (Product p : products) {
