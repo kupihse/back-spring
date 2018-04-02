@@ -61,7 +61,7 @@ public class ProductStorage implements ProductDAO {
 
   @Override
   public List<Product> getProductsBySellerId(String sellerId) {
-    List<Product> products = template.query("Select * from Products WHERE seller_id = ? ORDER BY add_date",
+    List<Product> products = template.query("Select * from Products WHERE seller_id = ? ORDER BY add_date DESC",
             (rs, rowNum) -> rowToProduct(rs),
             sellerId);
     for (Product p : products) {
@@ -73,7 +73,7 @@ public class ProductStorage implements ProductDAO {
 
   @Override
   public List<Product> getNBySellerId(String sellerId, int start, int n) {
-    List<Product> products = template.query("Select * from Products WHERE seller_id = ? ORDER BY add_date" +
+    List<Product> products = template.query("Select * from Products WHERE seller_id = ? ORDER BY add_date DESC" +
                     " LIMIT ? OFFSET ?",
             (rs, rowNum) -> rowToProduct(rs),
             sellerId, n, start);
@@ -86,7 +86,7 @@ public class ProductStorage implements ProductDAO {
 
   @Override
   public List<Product> getAll() {
-    List<Product> products = template.query("Select * from Products ORDER BY add_date", (rs, rowNum) -> rowToProduct(rs));
+    List<Product> products = template.query("Select * from Products ORDER BY add_date DESC", (rs, rowNum) -> rowToProduct(rs));
     for (Product p : products) {
       List<String> im_ids = template.queryForList("Select photo_id from Product_photo where product_id = ?", String.class, p.getId());
       p.setImages(im_ids);
@@ -98,7 +98,7 @@ public class ProductStorage implements ProductDAO {
   // Надо поменять
   @Override
   public List<Product> getN(int start, int n) {
-    List<Product> products = template.query("Select * from Products ORDER BY add_date" +
+    List<Product> products = template.query("Select * from Products ORDER BY add_date DESC" +
                     " LIMIT ? OFFSET ?", (rs, rowNum) -> rowToProduct(rs),
             n, start);
     for (Product p : products) {
@@ -144,7 +144,7 @@ public class ProductStorage implements ProductDAO {
   @Override
   public List<Product> search(String query) {
     List<Product> products = template.query("Select * from Products" +
-                    " where title like ? ORDER BY add_date",
+                    " where title like ? ORDER BY add_date DESC",
             (rs, rowNum) -> rowToProduct(rs),
             "%" + query.toLowerCase() + "%");
     for (Product p : products) {
@@ -157,7 +157,7 @@ public class ProductStorage implements ProductDAO {
   @Override
   public List<String> suggestNames(String query) {
     return template.queryForList("Select * from Products" +
-                    " where title like ?",
+                    " where title like ? ORDER BY add_date DESC",
             String.class,
             "%" + query.toLowerCase() + "%");
   }
