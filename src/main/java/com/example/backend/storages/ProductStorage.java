@@ -48,7 +48,7 @@ public class ProductStorage implements ProductDAO {
   public Product getProduct(String id) {
     // Хз работает ли
     System.out.println("Log/d: getting product, id - "+id);
-    Product product = template.queryForObject("Select * from Products where prod_id=?", Product.class, id);
+    Product product = template.queryForObject("Select * from Products where prod_id=?", (rs, rowNum) -> rowToProduct(rs), id);
     System.out.println("Log/d: name - "+product.getName());
     List<String> im_ids = template.queryForList("Select photo_id from Product_photo where product_id = ?", String.class, id);
     System.out.println("Log/d: size - "+im_ids.size());
