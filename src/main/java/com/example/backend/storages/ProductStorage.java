@@ -112,7 +112,7 @@ public class ProductStorage implements ProductDAO {
 
   @Override
   public List<Product> getByIds(List<String> ids) {
-    String idList = ids.stream().reduce("", (acc, s)->acc+"'"+s+"',");
+    String idList = ids.stream().reduce("", (acc, s)->acc+s+",");
     if (idList.endsWith(",")) {
       idList = idList.substring(0, idList.length()-1);
     }
