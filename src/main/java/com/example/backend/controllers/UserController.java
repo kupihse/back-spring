@@ -1,14 +1,13 @@
 package com.example.backend.controllers;
 
 import com.example.backend.models.User;
+import com.example.backend.storages.dao.ProductDAO;
 import com.example.backend.storages.dao.UserDAO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
-import com.example.backend.storages.ProductMemoryStorage;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.Map;
 import java.util.*;
 
 
@@ -17,7 +16,7 @@ import java.util.*;
 @RequestMapping("/user")
 public class UserController {
     @Autowired
-    private UserDAO storage;
+    private UserDAO userStorage;
 
     // --- SET EMAIL SERVICE
 //    public EmailService emailService;
@@ -32,7 +31,7 @@ public class UserController {
     @ResponseBody
     // добавление юзера при регистрации
     public void addUser(@RequestBody User p, HttpServletResponse resp) {
-        if (storage.add(p) == UserDAO.GetResp.OK) {
+        if (userStorage.add(p) == UserDAO.GetResp.OK) {
             System.out.println("Got User");
 
             // @TODO Sending email
@@ -51,12 +50,12 @@ public class UserController {
 
     @RequestMapping("/allconfirmed")
     public List<User> getUsers() {
-        return storage.getAllConfirmed();
+        return userStorage.getAllConfirmed();
     }
 
     @RequestMapping("/allnotconfirmed")
     public List<User> getNotConf() {
-        return storage.getNonConfirmed();
+        return userStorage.getNonConfirmed();
     }
 
 
@@ -68,7 +67,7 @@ public class UserController {
         // + logging
         System.out.println("Logging: "+p);
 
-        switch (storage.log(p)) {
+        switch (userStorage.log(p)) {
             case USER_NOT_EXISTS:
                 /*
                  @TODO **************** код, если нет юзера ******************
@@ -89,7 +88,7 @@ public class UserController {
                  */
 
                 System.out.println("Entry Successful");
-                User u = storage.get(p.getLogin());
+                User u = userStorage.get(p.getLogin());
                 String token = u.token();
                 System.out.println("Logging2: "+u);
 //                return ResponseEntity.ok(token);
@@ -105,7 +104,7 @@ public class UserController {
     @RequestMapping(value = "/del", method = RequestMethod.POST)
     @ResponseBody
     public void deleteUser(@RequestBody User p, HttpServletResponse resp){
-        switch (storage.deleteUser(p)){
+        switch (userStorage.deleteUser(p)){
             case OK:
                 System.out.println("User was succesfully deleted");
                 resp.setStatus(HttpServletResponse.SC_OK);
@@ -117,9 +116,19 @@ public class UserController {
         }
     }
 
-
     @GetMapping("/get")
     public User getUser(@RequestParam("id") String id) {
-        return storage.get(id);
+        return userStorage.get(id);
+    }
+
+
+    @PostMapping("/wishlist/add/{id}/")
+    public void addToWishlist(@RequestBody User u, @PathVariable("id") String pId) {
+        userStorage.get(u.getLogin()).addToWishlist(pId);
+    }
+
+    @PostMapping("/wishlist/remove/{id}/")
+    public void removeFromWishlist(@RequestBody User u, @PathVariable("id") String pId) {
+        userStorage.get(u.getLogin()).removeFromWishlist(pId);
     }
 }

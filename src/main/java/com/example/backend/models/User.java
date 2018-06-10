@@ -1,9 +1,6 @@
 package com.example.backend.models;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 // Единичный юзер
 public class User {
@@ -12,7 +9,7 @@ public class User {
     private String login;
     private String password;
     private Set<String> products = new HashSet<>();
-
+    private List<String> wishlist = new ArrayList<>();
     private String token;
 
     private boolean confirmed;
@@ -65,6 +62,16 @@ public class User {
     public void addProduct(String product) { products.add(product); }
 
     public Set<String> getProducts() { return products; }
+
+    public List<String> getWishlist(){ return wishlist; }
+
+    public void addToWishlist(String id) {
+        wishlist.add(id);
+    }
+
+    public void removeFromWishlist(String id) {
+        wishlist.remove(id);
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -4,6 +4,7 @@ import com.example.backend.models.Product;
 import com.example.backend.storages.dao.ProductDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.Table;
@@ -109,6 +110,19 @@ public class ProductStorage implements ProductDAO {
   }
 
   @Override
+  public List<Product> getByIds(List<String> ids) {
+    MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+    parameterSource.addValue("ids", ids);
+
+    List<Product> products = template.query("Select * from Products WHERE id IN (:ids) ORDER BY add_date DESC", (rs, rowNum) -> rowToProduct(rs), parameterSource);
+    for (Product p : products) {
+      List<String> im_ids = template.queryForList("Select photo_id from Product_photo where product_id = ?", String.class, p.getId());
+      p.setImages(im_ids);
+    }
+    return products;
+  }
+
+  @Override
   public void deleteAll() {
     template.update("DELETE FROM Products");
   }
@@ -124,6 +138,10 @@ public class ProductStorage implements ProductDAO {
     return template.queryForObject("SELECT COUNT(*) FROM Products", Integer.class);
   }
 
+  @Override
+  public int sizeBySellerId(String sellerId) {
+    return template.queryForObject("SELECT COUNT(*) FROM Products WHERE seller_id = ?", Integer.class, sellerId);
+  }
 
   private static Product rowToProduct(ResultSet rs) throws SQLException {
     Product product = new Product();

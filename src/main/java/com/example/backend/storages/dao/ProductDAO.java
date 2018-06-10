@@ -14,9 +14,11 @@ public interface ProductDAO {
   List<Product> getN(int start, int n);
   List<Product> getProductsBySellerId(String sellerId);
   List<Product> getNBySellerId(String sellerId, int start, int n);
+  List<Product> getByIds(List<String> ids);
   boolean deleteProduct(String id);
   void deleteAll();
   int size();
+  int sizeBySellerId(String sellerId);
 
   List<Product> search(String query);
   List<String> suggestNames(String query);

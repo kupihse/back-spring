@@ -81,6 +81,12 @@ public class ProductMemoryStorage implements ProductDAO {
     return products.size();
   }
 
+  @Override
+  public int sizeBySellerId(String sellerId) {
+    return (int) products.stream()
+            .filter((p) -> p.getSellerId().equals(sellerId))
+            .count();
+  }
 
   @Override
   public List<Product> search(String query) {
@@ -96,4 +102,5 @@ public class ProductMemoryStorage implements ProductDAO {
             .filter(s -> s.toLowerCase().contains(query.toLowerCase()))
             .collect(Collectors.toList());
   }
+
 }

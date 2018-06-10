@@ -82,9 +82,31 @@ public class ProductController {
 
     return new Pair<>(
             productStorage.getNBySellerId(sellerId, start, n),
-            productStorage.size()
+            productStorage.sizeBySellerId(sellerId)
     );
   }
+
+  // N товаров из вишлиста конкретного юзера, начиная со start
+  // также возвращаем общее количество товаров для этого юзера
+  // Если товара нету, вместо него null
+  @GetMapping(value = "/sellerId/{sellerId}/wishlist/n/{start}/{n}")
+  public Pair<List<Product>, Integer> getWishListBySellerId(@PathVariable("sellerId") String sellerId,
+                                                     @PathVariable("start") Integer start,
+                                                     @PathVariable("n") Integer n) {
+
+    List<String> pIds = userStorage.get(sellerId).getWishlist();
+    List<Product> products = productStorage.getByIds(pIds);
+    return new Pair<>(
+            products,
+            products.size()
+    );
+  }
+
+  @GetMapping("/sellerId/{sellerId}/added")
+  public Integer getAddedBySellerId(@PathVariable("sellerId") String sellerId) {
+    return productStorage.sizeBySellerId(sellerId);
+  }
+
 
   @DeleteMapping("/delete/id/{id}")
   void deleteById(@PathVariable("id") String id) {
@@ -109,5 +131,6 @@ public class ProductController {
             productStorage.size()
     );
   }
+
 
 }
