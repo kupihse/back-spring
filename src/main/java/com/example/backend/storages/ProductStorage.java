@@ -112,10 +112,11 @@ public class ProductStorage implements ProductDAO {
 
   @Override
   public List<Product> getByIds(List<String> ids) {
-//    MapSqlParameterSource parameterSource = new MapSqlParameterSource();
-//    parameterSource.addValue("ids", ids);
+    NamedParameterJdbcTemplate jdbcTemplate = new NamedParameterJdbcTemplate(template);
+    MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+    parameterSource.addValue("ids", ids);
 
-    List<Product> products = template.query("Select * from Products WHERE prod_id IN (?) ORDER BY add_date DESC", (rs, rowNum) -> rowToProduct(rs), ids);
+    List<Product> products = jdbcTemplate.query("Select * from Products WHERE prod_id IN (?) ORDER BY add_date DESC",parameterSource, (rs, rowNum) -> rowToProduct(rs));
     for (Product p : products) {
       List<String> im_ids = template.queryForList("Select photo_id from Product_photo where product_id = ?", String.class, p.getId());
       p.setImages(im_ids);
