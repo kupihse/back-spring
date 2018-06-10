@@ -4,6 +4,7 @@ import com.example.backend.models.Product;
 import com.example.backend.storages.dao.ProductDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -112,12 +113,13 @@ public class ProductStorage implements ProductDAO {
 
   @Override
   public List<Product> getByIds(List<String> ids) {
-    String idList = ids.stream().reduce("", (acc, s)->acc+s+",");
+    String idList = ids.stream().reduce("", (acc, s)->acc+"'"+s+"',");
     if (idList.endsWith(",")) {
       idList = idList.substring(0, idList.length()-1);
     }
-    System.out.println("idlist " + idList);
-    List<Product> products = template.query("Select * from Products WHERE prod_id IN (?) ORDER BY add_date DESC", (rs, rowNum) -> rowToProduct(rs), idList);
+    String query = "Select * from Products WHERE prod_id IN ("+idList+") ORDER BY add_date DESC";
+    System.out.println("query " + query);
+    List<Product> products = template.query(query, (rs, rowNum) -> rowToProduct(rs));
     for (Product p : products) {
       List<String> im_ids = template.queryForList("Select photo_id from Product_photo where product_id = ?", String.class, p.getId());
       p.setImages(im_ids);
