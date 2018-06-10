@@ -89,6 +89,11 @@ public class ProductMemoryStorage implements ProductDAO {
   }
 
   @Override
+  public List<Product> getByIds(List<String> ids) {
+    return products.stream().filter(p->ids.indexOf(p.getId())!=-1).collect(Collectors.toList());
+  }
+
+  @Override
   public List<Product> search(String query) {
     return products.stream()
             .filter(p -> p.getName().toLowerCase().contains(query.toLowerCase()))
