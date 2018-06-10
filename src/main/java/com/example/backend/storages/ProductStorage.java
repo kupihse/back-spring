@@ -116,7 +116,7 @@ public class ProductStorage implements ProductDAO {
     MapSqlParameterSource parameterSource = new MapSqlParameterSource();
     parameterSource.addValue("ids", ids);
 
-    List<Product> products = jdbcTemplate.query("Select * from Products WHERE prod_id IN (?) ORDER BY add_date DESC",parameterSource, (rs, rowNum) -> rowToProduct(rs));
+    List<Product> products = jdbcTemplate.query("Select * from Products WHERE prod_id IN (:ids) ORDER BY add_date DESC",parameterSource, (rs, rowNum) -> rowToProduct(rs));
     for (Product p : products) {
       List<String> im_ids = template.queryForList("Select photo_id from Product_photo where product_id = ?", String.class, p.getId());
       p.setImages(im_ids);
