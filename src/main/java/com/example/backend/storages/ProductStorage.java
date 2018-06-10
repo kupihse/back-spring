@@ -5,6 +5,7 @@ import com.example.backend.storages.dao.ProductDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.Table;
@@ -111,10 +112,10 @@ public class ProductStorage implements ProductDAO {
 
   @Override
   public List<Product> getByIds(List<String> ids) {
-    MapSqlParameterSource parameterSource = new MapSqlParameterSource();
-    parameterSource.addValue("ids", ids);
+//    MapSqlParameterSource parameterSource = new MapSqlParameterSource();
+//    parameterSource.addValue("ids", ids);
 
-    List<Product> products = template.query("Select * from Products WHERE id IN (:ids) ORDER BY add_date DESC", (rs, rowNum) -> rowToProduct(rs), parameterSource);
+    List<Product> products = template.query("Select * from Products WHERE id IN (?) ORDER BY add_date DESC", (rs, rowNum) -> rowToProduct(rs), ids);
     for (Product p : products) {
       List<String> im_ids = template.queryForList("Select photo_id from Product_photo where product_id = ?", String.class, p.getId());
       p.setImages(im_ids);
