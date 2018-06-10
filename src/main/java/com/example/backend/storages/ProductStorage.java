@@ -112,10 +112,11 @@ public class ProductStorage implements ProductDAO {
 
   @Override
   public List<Product> getByIds(List<String> ids) {
-    String idList = ids.stream().reduce("", (acc, s)->acc+s+",");
+    String idList = ids.stream().reduce("", (acc, s)->acc+"'"+s+"',");
     if (idList.endsWith(",")) {
       idList.substring(0, idList.length()-1);
     }
+    System.out.println("idlist " + idList);
     List<Product> products = template.query("Select * from Products WHERE prod_id IN (?) ORDER BY add_date DESC", (rs, rowNum) -> rowToProduct(rs), idList);
     for (Product p : products) {
       List<String> im_ids = template.queryForList("Select photo_id from Product_photo where product_id = ?", String.class, p.getId());
